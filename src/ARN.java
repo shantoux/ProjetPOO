@@ -2,6 +2,8 @@ public class ARN {
     private String sequence;
     private String appariements;
 
+    //CONSTRUCTEURS
+
     public ARN(String sequence, String appariements){
         this.sequence = sequence;
         this.appariements = appariements;
