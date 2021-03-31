@@ -1,17 +1,18 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Arbre {
-    private int valeur;
-    private Arbre gauche;
-    private Arbre droit;
+    private ArrayList<Arbre> enfants = new ArrayList();
+    private Arbre lienVersLePere;
+
 
     //CONSTRUCTEURS
-    public Arbre(int x) {
-        this.valeur = x;
+    public Arbre(Arbre pere) {
+        this.lienVersLePere = pere;
     }
 
-    public Arbre(int x, Arbre g, Arbre d){
-        this.valeur = x;
-        this.gauche = g;
-        this.droit = d;
+    public Arbre(){
+        this.lienVersLePere = null;
     }
 
 }
