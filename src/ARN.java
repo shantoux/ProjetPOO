@@ -16,7 +16,7 @@ public class ARN {
 
     @Override
     public String toString(){
-        return(" " + this.sequence + "\n " + this.appariements);
+        return(this.sequence + "\n" + this.appariements);
     }
 
     public static ARN stockholmARN(File file) throws IOException {
@@ -28,12 +28,14 @@ public class ARN {
         while((line =  br.readLine()) != null){
             if (line.contains("#=GC SS_cons"))
             {
-                appariements = line.substring(line.indexOf("SS_cons") + 1);
+                appariements = line.substring(line.indexOf("SS_cons") + 7);
+                appariements = appariements.trim();
                 appariements = appariements.replaceAll("\\.","");
             }
             if (line.contains("#=GC RF"))
             {
-                sequence = line.substring(line.indexOf("RF") + 1);
+                sequence = line.substring(line.indexOf("RF") + 2);
+                sequence = sequence.trim();
                 sequence = sequence.replaceAll("\\.", "");
             }
         }
