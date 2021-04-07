@@ -15,4 +15,8 @@ public class Arbre {
         this.lienVersLePere = null;
     }
 
+//    public String arbre_depuis_parenthesage(String parenthesage){
+//
+//    }
+
 }
