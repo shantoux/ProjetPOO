@@ -3,17 +3,21 @@ import java.util.List;
 
 public class Arbre {
     private ArrayList<Arbre> enfants = new ArrayList();
-    private Arbre lienVersLePere;
+    private Arbre lienVersLePere = null;
     private char base;
     private Arbre lienVersLaPaire;
 
 
     //CONSTRUCTEURS
-    public Arbre(Arbre pere){
+    public Arbre(char base, Arbre pere){
+        this.base = base;
         this.lienVersLePere = pere;
     }
     public Arbre(){
-        this.lienVersLePere = null;
+    }
+
+    public Arbre(Arbre pere){
+        this.lienVersLePere = pere;
     }
 
     public void addEnfant(char base) {
