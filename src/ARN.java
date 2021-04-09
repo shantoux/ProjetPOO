@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -19,7 +18,7 @@ public class ARN {
         return(this.sequence + "\n" + this.appariements);
     }
 
-    public static ARN stockholmARN(File file) throws IOException {
+    public static ARN stockholmARN(String file) throws IOException {
         FileReader stockholm = new FileReader(file);
         BufferedReader br = new BufferedReader(stockholm);
         String appariements=null;
@@ -31,6 +30,11 @@ public class ARN {
                 appariements = line.substring(line.indexOf("SS_cons") + 7);
                 appariements = appariements.trim();
                 appariements = appariements.replaceAll("\\.","");
+                appariements = appariements.replaceAll("<", "(");
+                appariements = appariements.replaceAll(">",")");
+                appariements = appariements.replaceAll("_","-");
+                appariements = appariements.replaceAll(",","-");
+                appariements = appariements.replaceAll(":","-");
             }
             if (line.contains("#=GC RF"))
             {
@@ -100,8 +104,10 @@ public class ARN {
         System.out.println(l.comparaison(l3, "sequence"));
         System.out.println(l.egalite(l4, "forme"));
         System.out.println(l.egalite(l4,"sequence"));
-        System.out.println(stockholmARN(new File("RF00005.stockholm.txt")));
+        System.out.println(stockholmARN("RF00005.stockholm.txt"));
 
+        Arbre racine = new Arbre();
+        racine.addEnfant('A');
     }
 
 
