@@ -48,7 +48,7 @@ public class ARN {
 
 
 
-    public boolean egalite(ARN arn, String methode){
+    public boolean equals(ARN arn, String methode){
         boolean res = false;
         if (methode.equals("forme")){
             res = this.appariements.equals(arn.appariements);
@@ -59,8 +59,8 @@ public class ARN {
         return res;
     }
 
-
-    public boolean comparaison(ARN arn, String methode) {
+    //Teste l'égalité sans les tirets de début d'appariement
+    public boolean equalsSansTirets(ARN arn, String methode) {
         int i = 0;
         int j = 0;
         while (this.appariements.charAt(i) == '-') i++;
@@ -91,6 +91,10 @@ public class ARN {
     }
 
 
+
+
+
+
     public static void main(String[] args) throws IOException {
         ARN l = new ARN("AAAAAUGCAGUTG", "----((-))----");
         System.out.println(l);
@@ -98,16 +102,15 @@ public class ARN {
         ARN l3 = new ARN("UUAUGCAGUTG", "--(((---)))");
         ARN l4 = new ARN("AAAAAUGCAGUTG", "----((-))----");
 
-        System.out.println(l.comparaison(l2, "forme"));
-        System.out.println(l.comparaison(l2, "sequence"));
-        System.out.println(l.comparaison(l3, "forme"));
-        System.out.println(l.comparaison(l3, "sequence"));
-        System.out.println(l.egalite(l4, "forme"));
-        System.out.println(l.egalite(l4,"sequence"));
-        System.out.println(stockholmARN("RF00005.stockholm.txt"));
+        System.out.println(l.equalsSansTirets(l2, "forme"));
+        System.out.println(l.equalsSansTirets(l2, "sequence"));
+        System.out.println(l.equalsSansTirets(l3, "forme"));
+        System.out.println(l.equalsSansTirets(l3, "sequence"));
+        System.out.println(l.equals(l4, "forme"));
+        System.out.println(l.equals(l4,"sequence"));
+        ARN arn1 = stockholmARN("RF00005.stockholm.txt");
+        Arbre a1 = Arbre.parentheseVersArbre(arn1.appariements, arn1.sequence);
 
-        Arbre racine = new Arbre();
-        racine.addEnfant('A');
     }
 
 
