@@ -90,6 +90,24 @@ public class ARN {
         return true;
     }
 
+    public boolean rechercheDeMotifs(ARN arn){
+        boolean res = false;
+        int cptBasesEgales = 1;
+        for (char b : arn.appariements.toCharArray()) {
+            int i = 0;
+            while (this.appariements.charAt(i) == (arn.appariements.charAt(i+arn.appariements.indexOf(b)))
+                    && cptBasesEgales < this.appariements.length()){
+                cptBasesEgales += 1;
+                i += 1;
+            }
+            if (cptBasesEgales == this.appariements.length()){
+                res = true;
+                return res;
+            }
+        }
+        return res;
+    }
+
 
 
 
@@ -102,14 +120,17 @@ public class ARN {
         ARN l3 = new ARN("UUAUGCAGUTG", "--(((---)))");
         ARN l4 = new ARN("AAAAAUGCAGUTG", "----((-))----");
 
-        System.out.println(l.equalsSansTirets(l2, "forme"));
-        System.out.println(l.equalsSansTirets(l2, "sequence"));
-        System.out.println(l.equalsSansTirets(l3, "forme"));
-        System.out.println(l.equalsSansTirets(l3, "sequence"));
-        System.out.println(l.equals(l4, "forme"));
-        System.out.println(l.equals(l4,"sequence"));
-        ARN arn1 = stockholmARN("RF00005.stockholm.txt");
-        Arbre a1 = Arbre.parentheseVersArbre(arn1.appariements, arn1.sequence);
+//        System.out.println(l.equalsSansTirets(l2, "forme"));
+//        System.out.println(l.equalsSansTirets(l2, "sequence"));
+//        System.out.println(l.equalsSansTirets(l3, "forme"));
+//        System.out.println(l.equalsSansTirets(l3, "sequence"));
+//        System.out.println(l.equals(l4, "forme"));
+//        System.out.println(l.equals(l4,"sequence"));
+//        ARN arn1 = stockholmARN("RF00005.stockholm.txt");
+//        Arbre a1 = Arbre.parentheseVersArbre(arn1.appariements, arn1.sequence);
+        ARN motif = new ARN("AUAUA","((-))");
+        System.out.println(motif.rechercheDeMotifs(l));
+        System.out.println(l2.rechercheDeMotifs(l));
 
     }
 
