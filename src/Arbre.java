@@ -1,5 +1,13 @@
 import java.util.ArrayList;
 
+
+/**
+ * La classe Arbre représente la structure secondaire d'un ARN sous forme d'un arbre général
+ * L'objet "Arbre" représente un noeud interne (bases appariées) ou une feuille (bases non appariées)
+ * L'Arraylist "enfants" représente les bases successives, jusqu'aux prochaines bases appariées
+ * le String "base" contient le type de base "A,C,G,U", lorsqu'il s'agit d'un noeud repré
+ * sentant des bases appariées, l'attribut "base" contient les deux bases (ex : GC)
+ */
 public class Arbre {
     private ArrayList<Arbre> enfants = new ArrayList();
     private Arbre lienVersLePere = null;
@@ -13,10 +21,6 @@ public class Arbre {
     }
     public Arbre(){
         this.base = "racine";
-    }
-
-    public Arbre(Arbre pere){
-        this.lienVersLePere = pere;
     }
 
     //Méthodes
@@ -37,38 +41,44 @@ public class Arbre {
         this.base += base;
     }
 
+    //Retourne la dernière feuille ajoutée à un ancêtre dans l'arbre
     public Arbre dernierEnfantAjoute(){
         int indexLastEnfant = this.enfants.size() - 1;
         return this.enfants.get(indexLastEnfant);
     }
 
-    public Arbre passerAuNoeudSuivant(){
-        return this.enfants.get(this.enfants.size()-1);
-    }
-
+    //Retourne la base appariée précédente
     public Arbre retournerAlAscendant(){
         return this.lienVersLePere;
     }
 
+    /**
+     *Méthode qui permet d'obtenir un Arbre représentant la structure secondaire d'un ARN
+     * @param appariements structure secondaire en format parenthèses-tirets
+     * @param sequence de l'ARN que l'on veut représenter en Arbre
+     * @return un Arbre raciné dont les noeuds internes sont les bases appariées et les feuilles des bases non appariées
+     */
     public static Arbre parentheseVersArbre(String appariements, String sequence){
         Arbre racine = new Arbre();
-        Arbre pere = racine;
+        Arbre pere = racine; //buffer
         for (int i=0; i<appariements.length();i++){
-            if (appariements.charAt(i) == '-'){
-                pere.addEnfant(Character.toString(sequence.charAt(i)));
+            if (appariements.charAt(i) == '-'){ //tiret = base non appariée
+                pere.addEnfant(Character.toString(sequence.charAt(i))); //ajout d'un enfant au buffer
             }
-            else if (appariements.charAt(i) == '('){
-                pere.addEnfant(Character.toString(sequence.charAt(i)));
-                pere = pere.dernierEnfantAjoute();
+            else if (appariements.charAt(i) == '('){ //( = première base d'un couple de bases appariées
+                pere.addEnfant(Character.toString(sequence.charAt(i))); //ajout d'un enfant au buffer
+                pere = pere.dernierEnfantAjoute();//l'enfant ajouté devient le nouveau buffer
             }
-            else if (appariements.charAt(i) == ')'){
-                pere.addPaire(Character.toString(sequence.charAt(i)));
-                pere = pere.retournerAlAscendant();
-
+            else if (appariements.charAt(i) == ')'){ //) = deuxième base d'un couple de bases appariées
+                pere.addPaire(Character.toString(sequence.charAt(i)));//ajout d'une base au buffer
+                                                                      // qui contient désormais une paire de bases
+                pere = pere.retournerAlAscendant();//l'ancêtre du buffer devient le nouveau buffer
             }
         }
-        return racine;
+        return racine;//retour de l'arbre créé
     }
+
+
     //Affichage sommaire de l'arbre pour vérification de la méthode parentheseVersArbre
     public void affichageArbre(){
         for (Arbre noeud : this.enfants){
@@ -82,26 +92,17 @@ public class Arbre {
         }
     }
 
-    public String arbreVersParenthese(Arbre racine) {
-        String parenthese = null;
-        Arbre buffer = racine;
-        if (racine != null) {
-            int i = 0;
-            buffer = buffer.enfants.get(i);
-            do{
-
-            }
-        }
-        return parenthese;
-    }
-
-
-
-
-
-
-
-
-
+//    public String arbreVersParenthese(Arbre racine) {
+//        String parenthese = null;
+//        Arbre buffer = racine;
+//        if (racine != null) {
+//            int i = 0;
+//            buffer = buffer.enfants.get(i);
+//            do{
+//
+//            }
+//        }
+//        return parenthese;
+//    }
 
 }

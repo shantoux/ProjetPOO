@@ -18,7 +18,12 @@ public class ARN {
         return(this.sequence + "\n" + this.appariements);
     }
 
-
+    /**
+     * Parser de fichiers txt stockholm afin de récupérer la séquence consensus ainsi que l'appariements au format
+     * parenthèses-tirets et non WUSS
+     * @param file fichier txt de l'ARN dont on veut la séquence et la structure
+     * @return un ARN(sequence, appariements)
+     */
     public static ARN stockholmARN(String file) throws IOException {
         FileReader stockholm = new FileReader(file);
         BufferedReader br = new BufferedReader(stockholm);
@@ -47,8 +52,17 @@ public class ARN {
         return new ARN(sequence, appariements);
     }
 
+    //définition d'une énumération pour le type de méthode à effectuer pour certaines méthodes
     public enum Methode {structure, sequence};
 
+    /**
+     * Méthode qui permet de vérifier l'égalité stricte de deux ARN, soit en comparer leurs structures seules ou leurs
+     * structures et séquences
+     * @param arn : l'arn avec lequel on veut comparer l'arn qui appelle la méthode
+     * @param methode : methode.structure si on veut comparer les structures et methode.sequence lorsqu'on veut comparer
+     *                structure et séquences
+     * @return
+     */
     public boolean equals(ARN arn, Methode methode){
         boolean res = false;
         if (methode == methode.structure){
@@ -64,7 +78,8 @@ public class ARN {
     /**
      * teste l'égalité entre deux ARNs, sans tenir compte des bases non appariées de début de chaînes
      * @param arn que l'on veut comparer
-     * @param methode : "Structure
+     * @param methode : methode.structure si on veut comparer les structures et methode.sequence lorsqu'on veut comparer
+     *      *                structure et séquences
      * @return
      */
     public boolean equalsSansTirets(ARN arn, String methode) {
