@@ -126,11 +126,15 @@ public class ARN {
 //        System.out.println(l.equalsSansTirets(l3, "sequence"));
 //        System.out.println(l.equals(l4, "forme"));
 //        System.out.println(l.equals(l4,"sequence"));
-//        ARN arn1 = stockholmARN("RF00005.stockholm.txt");
-//        Arbre a1 = Arbre.parentheseVersArbre(arn1.appariements, arn1.sequence);
-        ARN motif = new ARN("AUAUA","((-))");
-        System.out.println(motif.rechercheDeMotifs(l));
-        System.out.println(l2.rechercheDeMotifs(l));
+        ARN arn1 = stockholmARN("RF00005.stockholm.txt");
+        System.out.println(arn1.appariements);
+        System.out.println(arn1.sequence);
+        Arbre a1 = Arbre.parentheseVersArbre(arn1.appariements, arn1.sequence);
+
+        a1.affichageArbre();
+//        ARN motif = new ARN("AUAUA","((-))");
+//        System.out.println(motif.rechercheDeMotifs(l));
+//        System.out.println(l2.rechercheDeMotifs(l));
 
     }
 
