@@ -70,18 +70,18 @@ public class Arbre {
         return racine;
     }
 
-    public String arbreVersParenthese(Arbre racine) {
-        String parenthese = null;
-        Arbre buffer = racine;
-        if (racine != null) {
-            int i = 0;
-            buffer = buffer.enfants.get(i);
-            do{
-
-            }
-        }
-        return parenthese;
-    }
+//    public String arbreVersParenthese(Arbre racine) {
+//        String parenthese = null;
+//        Arbre buffer = racine;
+//        if (racine != null) {
+//            int i = 0;
+//            buffer = buffer.enfants.get(i);
+//            do{
+//
+//            }
+//        }
+//        return parenthese;
+//    }
 
 
 
