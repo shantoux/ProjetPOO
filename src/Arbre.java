@@ -15,13 +15,15 @@ public class Arbre {
 
 
     //CONSTRUCTEURS
-    public Arbre(String base, Arbre pere){
+
+    public Arbre(){ //constructeur pour la création d'un Arbre vide
+    }
+
+    public Arbre(String base, Arbre pere){ //constructeur pour les noeuds au sein de l'arbre
         this.base = base;
         this.lienVersLePere = pere;
     }
-    public Arbre(){
-        this.base = "racine";
-    }
+
 
     //Méthodes
 
