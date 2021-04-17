@@ -16,10 +16,10 @@ public class Arbre {
 
     //CONSTRUCTEURS
 
-    public Arbre(){ //constructeur pour la création d'un Arbre vide
+    public Arbre() { //constructeur pour la création d'un Arbre vide
     }
 
-    public Arbre(String base, Arbre pere){ //constructeur pour les noeuds au sein de l'arbre
+    public Arbre(String base, Arbre pere) { //constructeur pour les noeuds au sein de l'arbre
         this.base = base;
         this.lienVersLePere = pere;
     }
@@ -33,7 +33,7 @@ public class Arbre {
     }
 
     //Retourne la dernière feuille ajoutée à un ancêtre dans l'arbre
-    public Arbre getDernierEnfantAjoute(){
+    public Arbre getDernierEnfantAjoute() {
         int indexLastEnfant = this.enfants.size() - 1;
         return this.enfants.get(indexLastEnfant);
     }
@@ -45,46 +45,42 @@ public class Arbre {
     }
 
     //Ajoute un enfant à un arbre
-    public void addEnfant(String base){
-        Arbre enfant = new Arbre(base,this);
+    public void addEnfant(String base) {
+        Arbre enfant = new Arbre(base, this);
         this.enfants.add(enfant);
         enfant.base = base;
     }
 
     //Ajoute une paire appariée au noeud (this.base est nécessairement non null)
-    public void addPaire(String base){
+    public void addPaire(String base) {
         this.base += base;
     }
 
 
-
-
-
     //Retourne la base appariée précédente
-    public Arbre retournerAlAscendant(){
+    public Arbre retournerAlAscendant() {
         return this.lienVersLePere;
     }
 
     /**
-     *Méthode qui permet d'obtenir un Arbre représentant la structure secondaire d'un ARN
+     * Méthode qui permet d'obtenir un Arbre représentant la structure secondaire d'un ARN
+     *
      * @param appariements structure secondaire en format parenthèses-tirets
-     * @param sequence de l'ARN que l'on veut représenter en Arbre
+     * @param sequence     de l'ARN que l'on veut représenter en Arbre
      * @return un Arbre raciné dont les noeuds internes sont les bases appariées et les feuilles des bases non appariées
      */
-    public static Arbre parentheseVersArbre(String appariements, String sequence){
+    public static Arbre parentheseVersArbre(String appariements, String sequence) {
         Arbre racine = new Arbre();
         Arbre pere = racine; //buffer
-        for (int i=0; i<appariements.length();i++){
-            if (appariements.charAt(i) == '-'){ //tiret = base non appariée
+        for (int i = 0; i < appariements.length(); i++) {
+            if (appariements.charAt(i) == '-') { //tiret = base non appariée
                 pere.addEnfant(Character.toString(sequence.charAt(i))); //ajout d'un enfant au buffer
-            }
-            else if (appariements.charAt(i) == '('){ //( = première base d'un couple de bases appariées
+            } else if (appariements.charAt(i) == '(') { //( = première base d'un couple de bases appariées
                 pere.addEnfant(Character.toString(sequence.charAt(i))); //ajout d'un enfant au buffer
                 pere = pere.getDernierEnfantAjoute();//l'enfant ajouté devient le nouveau buffer
-            }
-            else if (appariements.charAt(i) == ')'){ //) = deuxième base d'un couple de bases appariées
+            } else if (appariements.charAt(i) == ')') { //) = deuxième base d'un couple de bases appariées
                 pere.addPaire(Character.toString(sequence.charAt(i)));//ajout d'une base au buffer
-                                                                        // qui contient désormais une paire de bases
+                // qui contient désormais une paire de bases
                 pere = pere.getLienVersLePere();//l'ancêtre du buffer devient le nouveau buffer
             }
         }
@@ -93,29 +89,31 @@ public class Arbre {
 
 
     //Affichage sommaire de l'arbre pour vérification de la méthode parentheseVersArbre
-    public void affichageArbre(){
-        for (Arbre noeud : this.enfants){
-            if (noeud.enfants == null){
+    public void affichageArbre() {
+        for (Arbre noeud : this.enfants) {
+            if (noeud.enfants == null) {
                 System.out.println(noeud.base);
-            }
-            else {
+            } else {
                 System.out.println(noeud.base);
                 noeud.affichageArbre();
             }
         }
     }
 
-//    public String arbreVersParenthese(Arbre racine) {
-//        String parenthese = null;
-//        Arbre buffer = racine;
-//        if (racine != null) {
-//            int i = 0;
-//            buffer = buffer.enfants.get(i);
-//            do{
-//
-//            }
-//        }
-//        return parenthese;
-//    }
+    public String arbreVersParenthese() {
+        String parenthese = new String("");
+        if (this.enfants != null) {
+            for (Arbre noeud : this.enfants) {
+                if (noeud.enfants.size() == 0) {
+                    parenthese += "-";
+                } else {
+                    parenthese += "(";
+                    parenthese += noeud.arbreVersParenthese();
+                    parenthese += ")";
+                }
+            }
+        }
+        return parenthese;
+    }
 
 }

@@ -171,7 +171,7 @@ public class ARN {
     public static void main(String[] args) throws IOException {
         ARN l = new ARN("AAAAAUGCAGUTG", "----((-))----");
         ARN l2 = new ARN("UUUAUGCAUUTG", "---((-))----");
-        ARN l3 = new ARN("UUAUGCAGUTG", "--(((---)))");
+        ARN l3 = new ARN("UUAUGCAGUTGa", "--(((---)))-");
         ARN l4 = new ARN("AAAAAUGCAGUTG", "----((-))----");
 
 //        System.out.println(l.equalsSansTirets(l2, "forme"));
@@ -182,7 +182,7 @@ public class ARN {
 //        System.out.println(l.equals(l4,"sequence"));
         ARN arn1 = stockholmARN("RF00005.stockholm.txt");
         System.out.println(arn1.appariements);
-        System.out.println(arn1.sequence);
+
         Arbre a1 = Arbre.parentheseVersArbre(arn1.appariements, arn1.sequence);
 
         a1.affichageArbre();
@@ -190,6 +190,12 @@ public class ARN {
         ARN motif = new ARN("cgcuaucucCa","))))))))))-");
         System.out.println(motif.rechercheDeMotifs(arn1, Methode.structure));
         System.out.println(arn1.rechercheDeMotifs(motif, Methode.sequence));
+        Arbre a2 = Arbre.parentheseVersArbre(l3.appariements, l3.sequence);
+        a2.affichageArbre();
+        System.out.println(l3.appariements);
+        System.out.println(a2.arbreVersParenthese());
+        System.out.println(arn1.appariements);
+        System.out.println(a1.arbreVersParenthese());
 
     }
 
