@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 
 /**
- * La classe Arbre représente la structure secondaire d'un ARN sous forme d'un arbre général
+ * La classe Arbre représente la structure secondaire d'un ARN sous forme d'arbre général
  * L'objet "Arbre" représente un noeud interne (bases appariées) ou une feuille (bases non appariées)
  * L'Arraylist "enfants" représente les bases successives, jusqu'aux prochaines bases appariées
  * le String "base" contient le type de base "A,C,G,U", lorsqu'il s'agit d'un noeud repré
@@ -24,6 +24,11 @@ public class Arbre {
         this.lienVersLePere = pere;
     }
 
+    public ArrayList<Arbre> getEnfants() {
+        return enfants;
+    }
+
+
 
     //Méthodes
 
@@ -42,6 +47,8 @@ public class Arbre {
     public void addPaire(String base){
         this.base += base;
     }
+
+
 
     //Retourne la dernière feuille ajoutée à un ancêtre dans l'arbre
     public Arbre dernierEnfantAjoute(){

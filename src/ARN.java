@@ -82,12 +82,12 @@ public class ARN {
      *      *                structure et séquences
      * @return
      */
-    public boolean equalsSansTirets(ARN arn, String methode) {
+    public boolean equalsSansTirets(ARN arn, Methode methode) {
         int i = 0;
         int j = 0;
         while (this.appariements.charAt(i) == '-') i++;
         while (arn.appariements.charAt(j) == '-') j++;
-        if (methode.equals("structure")){
+        if (methode == methode.structure){
             while (i<this.appariements.length() && j<arn.appariements.length()){
                 if (this.appariements.charAt(i) == arn.appariements.charAt(j)){
                     i++;
@@ -98,7 +98,7 @@ public class ARN {
                 }
             }
         }
-        else if (methode.equals("sequence")){
+        else if (methode == methode.sequence){
             while (i<this.appariements.length() && j<arn.appariements.length()){
                 if (this.sequence.charAt(i) == arn.sequence.charAt(j)){
                     i++;
@@ -192,6 +192,7 @@ public class ARN {
         System.out.println(arn1.rechercheDeMotifs(motif, Methode.sequence));
 
     }
+
 
 
 
