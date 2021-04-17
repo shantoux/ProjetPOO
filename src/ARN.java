@@ -196,6 +196,7 @@ public class ARN {
         System.out.println(a2.arbreVersParenthese());
         System.out.println(arn1.appariements);
         System.out.println(a1.arbreVersParenthese());
+        System.out.println(a2.equals(a2));
 
     }
 

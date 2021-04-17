@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 /**
@@ -114,6 +115,14 @@ public class Arbre {
             }
         }
         return parenthese;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Arbre arbre = (Arbre) o;
+        return Objects.equals(enfants, arbre.enfants) && Objects.equals(base, arbre.base);
     }
 
 }
