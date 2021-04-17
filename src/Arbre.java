@@ -28,7 +28,15 @@ public class Arbre {
         return enfants;
     }
 
+    public Arbre getLienVersLePere() {
+        return lienVersLePere;
+    }
 
+    //Retourne la dernière feuille ajoutée à un ancêtre dans l'arbre
+    public Arbre getDernierEnfantAjoute(){
+        int indexLastEnfant = this.enfants.size() - 1;
+        return this.enfants.get(indexLastEnfant);
+    }
 
     //Méthodes
 
@@ -50,11 +58,7 @@ public class Arbre {
 
 
 
-    //Retourne la dernière feuille ajoutée à un ancêtre dans l'arbre
-    public Arbre dernierEnfantAjoute(){
-        int indexLastEnfant = this.enfants.size() - 1;
-        return this.enfants.get(indexLastEnfant);
-    }
+
 
     //Retourne la base appariée précédente
     public Arbre retournerAlAscendant(){
@@ -76,12 +80,12 @@ public class Arbre {
             }
             else if (appariements.charAt(i) == '('){ //( = première base d'un couple de bases appariées
                 pere.addEnfant(Character.toString(sequence.charAt(i))); //ajout d'un enfant au buffer
-                pere = pere.dernierEnfantAjoute();//l'enfant ajouté devient le nouveau buffer
+                pere = pere.getDernierEnfantAjoute();//l'enfant ajouté devient le nouveau buffer
             }
             else if (appariements.charAt(i) == ')'){ //) = deuxième base d'un couple de bases appariées
                 pere.addPaire(Character.toString(sequence.charAt(i)));//ajout d'une base au buffer
-                                                                      // qui contient désormais une paire de bases
-                pere = pere.retournerAlAscendant();//l'ancêtre du buffer devient le nouveau buffer
+                                                                        // qui contient désormais une paire de bases
+                pere = pere.getLienVersLePere();//l'ancêtre du buffer devient le nouveau buffer
             }
         }
         return racine;//retour de l'arbre créé
