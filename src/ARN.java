@@ -183,21 +183,25 @@ public class ARN {
         ARN arn1 = stockholmARN("RF00005.stockholm.txt");
         System.out.println(arn1.appariements);
 
-        Arbre a1 = Arbre.parentheseVersArbre(arn1.appariements, arn1.sequence);
+        Arbre a1 = Arbre.arnVersArbre(arn1.appariements, arn1.sequence);
 
         a1.affichageArbre();
 
         ARN motif = new ARN("cgcuaucucCa","))))))))))-");
         System.out.println(motif.rechercheDeMotifs(arn1, Methode.structure));
         System.out.println(arn1.rechercheDeMotifs(motif, Methode.sequence));
-        Arbre a2 = Arbre.parentheseVersArbre(l3.appariements, l3.sequence);
+        Arbre a2 = Arbre.arnVersArbre(l3.appariements, l3.sequence);
         a2.affichageArbre();
         System.out.println(l3.appariements);
         System.out.println(a2.arbreVersParenthese());
         System.out.println(arn1.appariements);
+        System.out.println(arn1.sequence);
         System.out.println(a1.arbreVersParenthese());
         System.out.println(a2.equals(a2));
-
+        ARN sousARN = new ARN("ucgGaCUuaaAAuCcga", "(((((-------)))))");
+        Arbre sousArbre = Arbre.arnVersArbre(sousARN.appariements, sousARN.sequence);
+        Arbre peutetre = a1.plusGrandArbreCommun(sousArbre);
+        peutetre.affichageArbre();
     }
 
 //essai
