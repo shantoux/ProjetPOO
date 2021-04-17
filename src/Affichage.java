@@ -23,6 +23,7 @@ public class Affichage extends JFrame implements ActionListener {
         arn2 = new JLabel("Entrer ARN2 ici");
         fichierArn1 = new JTextField(20);
         fichierArn2 = new JTextField(20);
+        JButton traitement = new JButton("entrer");
 
         conteneur.add(arn1, BorderLayout.NORTH);
         conteneur.add(fichierArn1, BorderLayout.WEST);
