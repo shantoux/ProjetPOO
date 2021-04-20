@@ -1,47 +1,30 @@
+import org.w3c.dom.ls.LSOutput;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.io.IOException;
 
-public class Affichage extends JFrame implements ActionListener {
-    private JButton traitement;
-    private JLabel arn1;
-    private JTextField fichierArn1;
-    private JTextField fichierArn2;
-    private JLabel arn2;
-    private JCheckBox equals;
-    private JCheckBox motifs;
+public class Affichage extends JFrame {
 
-    public Affichage(){
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Structures Secondaires");
-        setSize(600,600);
+    public Affichage() {
+        super("Manipulation de structures secondaires");
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.setSize(900, 650);
+        this.setLocationRelativeTo(null);
+        JPanel contentPane = (JPanel) this.getContentPane();
+        contentPane.setLayout(new FlowLayout());
+        contentPane.add(new JButton("Comparer les séquences"));
+        contentPane.add(new JButton("Youhou"));
 
-        Container conteneur = getContentPane();
-
-        arn1 = new JLabel("Entrer ARN1 ici");
-        arn2 = new JLabel("Entrer ARN2 ici");
-        fichierArn1 = new JTextField(20);
-        fichierArn2 = new JTextField(20);
-        JButton traitement = new JButton("entrer");
-
-        conteneur.add(arn1, BorderLayout.NORTH);
-        conteneur.add(fichierArn1, BorderLayout.WEST);
-
-//        conteneur.add(arn2, BorderLayout.NORTH);
-//        conteneur.add(fichierArn2, BorderLayout.EAST);
-
-    }
-    @Override
-    public void actionPerformed(ActionEvent e) {
 
     }
 
-    public static void main(String[] args) throws InterruptedException {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new Affichage().setVisible(true);
-            }
-        });
+    public static void main(String[] args) {
+
+        Affichage affichage = new Affichage();
+        affichage.setVisible(true);
+
     }
+
 }
