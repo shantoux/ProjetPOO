@@ -16,6 +16,9 @@ public class ARN {
         this.sequence = "";
         this.appariements = "";
     }
+    public ARN(String appariements){
+        this.appariements = appariements;
+    }
 
     @Override
     public String toString(){
@@ -67,13 +70,13 @@ public class ARN {
      *                structure et séquences
      * @return
      */
-    public boolean equals(ARN arn, Methode methode){
+    public static boolean equals(ARN arn1, ARN arn, String methode){
         boolean res = false;
-        if (methode == methode.structure){
-            res = this.appariements.equals(arn.appariements);
+        if (methode.equals("structure")){
+            res = arn1.appariements.equals(arn.appariements);
         }
-        else if (methode == methode.sequence){
-            res = (this.sequence.equals(arn.sequence)&&this.appariements.equals(arn.appariements));
+        else if (methode.equals("sequence")){
+            res = (arn1.sequence.equals(arn.sequence)&&arn1.appariements.equals(arn.appariements));
         }
         return res;
     }
@@ -176,9 +179,6 @@ public class ARN {
                 ARN bufferArn = new ARN();
                 tailleBuffer = 0;
                 for (int j = 0; j < arn2.sequence.length(); j++) {
-                    System.out.print("i : "+ i + " j : " + j);
-                    System.out.println("  length arn1 : "+ arn1.sequence.length() + "length arn2 : " + arn2.sequence.length());
-
                     while (i<arn1.sequence.length() && j<arn2.sequence.length()
                             && arn1.appariements.charAt(i) == arn2.appariements.charAt(j)
                             && arn1.sequence.charAt(i) == arn2.sequence.charAt(j)){
