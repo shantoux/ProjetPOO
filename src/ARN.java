@@ -70,13 +70,13 @@ public class ARN {
      *                structure et séquences
      * @return
      */
-    public static boolean equals(ARN arn1, ARN arn, String methode){
+    public boolean equals(ARN arn, String methode){
         boolean res = false;
         if (methode.equals("structure")){
-            res = arn1.appariements.equals(arn.appariements);
+            res = this.appariements.equals(arn.appariements);
         }
         else if (methode.equals("sequence")){
-            res = (arn1.sequence.equals(arn.sequence)&&arn1.appariements.equals(arn.appariements));
+            res = (this.sequence.equals(arn.sequence)&&this.appariements.equals(arn.appariements));
         }
         return res;
     }
@@ -89,12 +89,12 @@ public class ARN {
      *      *                structure et séquences
      * @return
      */
-    public boolean equalsSansTirets(ARN arn, Methode methode) {
+    public boolean equalsSansTirets(ARN arn, String methode) {
         int i = 0;
         int j = 0;
         while (this.appariements.charAt(i) == '-') i++;
         while (arn.appariements.charAt(j) == '-') j++;
-        if (methode == methode.structure){
+        if (methode.equals("structure")){
             while (i<this.appariements.length() && j<arn.appariements.length()){
                 if (this.appariements.charAt(i) == arn.appariements.charAt(j)){
                     i++;
@@ -105,7 +105,7 @@ public class ARN {
                 }
             }
         }
-        else if (methode == methode.sequence){
+        else if (methode.equals("sequence")){
             while (i<this.appariements.length() && j<arn.appariements.length()){
                 if (this.sequence.charAt(i) == arn.sequence.charAt(j)){
                     i++;
@@ -127,16 +127,16 @@ public class ARN {
      * @return true si le motif est trouvé
      */
     //
-    public boolean rechercheDeMotifs(ARN arn, Methode methode){
-        if (arn.sequence.length() > this.sequence.length()){
+    public boolean rechercheDeMotifs(ARN arn, String methode){
+        if (arn.appariements.length() > this.appariements.length()){
             System.out.print("Recherche de motif impossible car le motif est plus grand que l'ARN testé : ");
             return false;
         }
         boolean res = false;
         int cptBasesEgales = 1;
-        if (methode == methode.structure){
+        if (methode.equals("structure")){
             for (int j =0; j<this.appariements.length();j++){
-                if (j + arn.sequence.length() <= this.appariements.length()){
+                if (j + arn.appariements.length() <= this.appariements.length()){
                     int i = 0;
                     while (arn.appariements.charAt(i) == (this.appariements.charAt(i+j))
                             && cptBasesEgales < arn.appariements.length()){
@@ -150,9 +150,9 @@ public class ARN {
                 }
             }
         }
-        else if (methode == methode.sequence){
+        else if (methode.equals("sequence")){
             for (int j =0; j<this.appariements.length();j++) {
-                if (j + arn.sequence.length() <= this.appariements.length()){
+                if (j + arn.appariements.length() <= this.appariements.length()){
                     int i = 0;
                     while (arn.appariements.charAt(i) == (this.appariements.charAt(i+j))
                             && cptBasesEgales < arn.appariements.length()
