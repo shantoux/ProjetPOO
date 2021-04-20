@@ -72,7 +72,9 @@ public class Arbre {
      * @param sequence     de l'ARN que l'on veut représenter en Arbre
      * @return un Arbre raciné dont les noeuds internes sont les bases appariées et les feuilles des bases non appariées
      */
-    public static Arbre arnVersArbre(String appariements, String sequence) {
+    public static Arbre arnVersArbre(ARN arn) {
+        String appariements = arn.appariements;
+        String sequence = arn.sequence;
         Arbre racine = new Arbre();
         Arbre pere = racine; //buffer
         for (int i = 0; i < appariements.length(); i++) {
@@ -103,72 +105,33 @@ public class Arbre {
         }
     }
 
-    public String arbreVersParenthese() {
+    public ARN arbreVersARN() {
         String parenthese = new String("");
+        String sequence = new String("");
         if (this.enfants != null) {
             for (Arbre noeud : this.enfants) {
                 if (noeud.enfants.size() == 0) {
                     parenthese += "-";
+                    sequence += noeud.base;
                 } else {
                     parenthese += "(";
-                    parenthese += noeud.arbreVersParenthese();
+                    sequence += noeud.base.charAt(0);
+                    parenthese += noeud.arbreVersARN().appariements;
+                    sequence += noeud.arbreVersARN().sequence;
                     parenthese += ")";
+                    sequence += noeud.base.charAt(1);
                 }
             }
         }
-        return parenthese;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Arbre arbre = (Arbre) o;
-        return Objects.equals(enfants, arbre.enfants) && Objects.equals(base, arbre.base);
-    }
-
-    //Ajoute un noeud entier à l'arbre qui appelle la méthode
-    public void addNoeud(Arbre noeud){
-        this.enfants.add(noeud);
-        noeud.lienVersLePere = this;
-    }
-
-    public Arbre getProchainNoeudInterne(){
-        for (int i = 0; i < this.enfants.size(); i++){
-            if (this.enfants.get(i).enfants != null){
-                return this.enfants.get(i);
-            }
-
-        }
-        return null;
+        return new ARN(sequence, parenthese);
     }
 
 
-    public Arbre plusGrandArbreCommun(Arbre a1){
-        Arbre plusGrandArbreCommun = new Arbre();
-        int hauteurArbreMax = 0;
-        int hauteurArbre = 0;
-        if (this.enfants != null && a1.enfants != null){
-            for (Arbre noeud1 : this.enfants){
-                Arbre buffer = new Arbre();
-                hauteurArbre = 0;
-                for (Arbre noeud2 : a1.enfants){
-                    System.out.println(noeud1.equals(noeud2));
-                    while (noeud1.equals(noeud2)){
-                        buffer.addNoeud(noeud1);
-                        noeud1 = noeud1.getProchainNoeudInterne();
-                        noeud2 = noeud2.getProchainNoeudInterne();
-                        hauteurArbre+=1;
-                        System.out.println(hauteurArbre);
-                        buffer.affichageArbre();
-                    }
-                }
-                if (hauteurArbre > hauteurArbreMax){
-                    hauteurArbreMax = hauteurArbre;
-                    plusGrandArbreCommun = buffer;
-                }
-            }
-        }
-        return plusGrandArbreCommun;
+    public static Arbre plusGrandArbreCommun(Arbre a1, Arbre a2) {
+        ARN arn1 = a1.arbreVersARN();
+        ARN arn2 = a2.arbreVersARN();
+        System.out.println(ARN.plusGrandARNCommun(arn1, arn2));
+        return arnVersArbre(ARN.plusGrandARNCommun(arn1, arn2));
     }
+
 }

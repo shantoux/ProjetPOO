@@ -3,14 +3,18 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class ARN {
-    private final String sequence;
-    private final String appariements;
+    protected String sequence;
+    protected String appariements;
 
     //CONSTRUCTEURS
 
     public ARN(String sequence, String appariements){
         this.sequence = sequence;
         this.appariements = appariements;
+    }
+    public ARN(){
+        this.sequence = "";
+        this.appariements = "";
     }
 
     @Override
@@ -163,6 +167,47 @@ public class ARN {
         return res;
     }
 
+    public static ARN plusGrandARNCommun(ARN arn1, ARN arn2) {
+        ARN plusGrandARNCommun = new ARN();
+        int tailleMaxCommun = 0;
+        int tailleBuffer = 0;
+        if (arn1.sequence.length() != 0 && arn2.sequence.length() != 0) {
+            for (int i = 0; i < arn1.sequence.length(); i++) {
+                ARN bufferArn = new ARN();
+                tailleBuffer = 0;
+                for (int j = 0; j < arn2.sequence.length(); j++) {
+                    System.out.print("i : "+ i + " j : " + j);
+                    System.out.println("  length arn1 : "+ arn1.sequence.length() + "length arn2 : " + arn2.sequence.length());
+
+                    while (i<arn1.sequence.length() && j<arn2.sequence.length()
+                            && arn1.appariements.charAt(i) == arn2.appariements.charAt(j)
+                            && arn1.sequence.charAt(i) == arn2.sequence.charAt(j)){
+
+                        bufferArn.appariements += arn1.appariements.charAt(i);
+                        bufferArn.sequence += arn1.sequence.charAt(i);
+                        tailleBuffer += 1;
+                        i += 1;
+                        j += 1;
+                    }
+                    if (tailleBuffer > tailleMaxCommun) {
+                        tailleMaxCommun = tailleBuffer;
+                        plusGrandARNCommun = bufferArn;
+                    }
+                }
+            }
+
+        }
+        if (plusGrandARNCommun.sequence.length() != 0){
+            return plusGrandARNCommun;
+        }
+        else {
+            System.out.println("Pas de sous ARN commun trouvé => Pas de sous arbre commun");
+            return null;
+        }
+    }
+
+
+
 
 
 
@@ -173,38 +218,24 @@ public class ARN {
         ARN l2 = new ARN("UUUAUGCAUUTG", "---((-))----");
         ARN l3 = new ARN("UUAUGCAGUTGa", "--(((---)))-");
         ARN l4 = new ARN("AAAAAUGCAGUTG", "----((-))----");
-
-//        System.out.println(l.equalsSansTirets(l2, "forme"));
-//        System.out.println(l.equalsSansTirets(l2, "sequence"));
-//        System.out.println(l.equalsSansTirets(l3, "forme"));
-//        System.out.println(l.equalsSansTirets(l3, "sequence"));
-//        System.out.println(l.equals(l4, "forme"));
-//        System.out.println(l.equals(l4,"sequence"));
-        ARN arn1 = stockholmARN("RF00005.stockholm.txt");
-        System.out.println(arn1.appariements);
-
-        Arbre a1 = Arbre.arnVersArbre(arn1.appariements, arn1.sequence);
-
-        a1.affichageArbre();
-
         ARN motif = new ARN("cgcuaucucCa","))))))))))-");
-        System.out.println(motif.rechercheDeMotifs(arn1, Methode.structure));
-        System.out.println(arn1.rechercheDeMotifs(motif, Methode.sequence));
-        Arbre a2 = Arbre.arnVersArbre(l3.appariements, l3.sequence);
-        a2.affichageArbre();
-        System.out.println(l3.appariements);
-        System.out.println(a2.arbreVersParenthese());
-        System.out.println(arn1.appariements);
-        System.out.println(arn1.sequence);
-        System.out.println(a1.arbreVersParenthese());
-        System.out.println(a2.equals(a2));
-        ARN sousARN = new ARN("ucgGaCUuaaAAuCcga", "(((((-------)))))");
-        Arbre sousArbre = Arbre.arnVersArbre(sousARN.appariements, sousARN.sequence);
-        Arbre peutetre = a1.plusGrandArbreCommun(sousArbre);
-        peutetre.affichageArbre();
+        ARN sousARN = new ARN("gutjdhucgGaCUuaaAAuCcga","------(((((-------)))))");
+        Arbre sousarbre = Arbre.arnVersArbre(sousARN);
+        ARN arn1 = stockholmARN("RF00005.stockholm.txt");
+        Arbre a1 = Arbre.arnVersArbre(arn1);
+        Arbre a5 = Arbre.plusGrandArbreCommun(a1,sousarbre);
+        System.out.println(plusGrandARNCommun(arn1, sousARN));
+        System.out.println(a5.arbreVersARN());
+
+
+
+
+
+
+
+
     }
 
-//essai
 
 
 }
