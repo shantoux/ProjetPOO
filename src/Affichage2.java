@@ -1,4 +1,3 @@
-package Affichage_test;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -38,6 +37,9 @@ public class Affichage2 {
                 String resultArn1 = Arn1.getText();
                 String resultArn2 = Arn2.getText();
                 System.out.println(resultArn1);
+
+                Arbre parentheseArn1 = Arbre.arnVersArbre(resultArn1);
+                Arbre parentheseArn2 = Arbre.arnVersArbre(resultArn2);
             }
         });
 
