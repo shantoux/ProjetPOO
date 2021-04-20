@@ -19,13 +19,13 @@ public class Affichage2 {
 
         //Definir le panel
         JPanel caseArn = new JPanel();
-        caseArn.setBounds(50,50,800,800);
+        caseArn.setBounds(150,50,600,800);
         caseArn.setBackground(Color.lightGray);
 
         //Ajouter un bouton "comparer"
         JButton comparer = new JButton("Comparer les séquences");
         comparer.setBackground(Color.GREEN);
-        comparer.setBounds(320,850,300,30);
+        comparer.setBounds(320,650,300,30);
 
         //Ajouter les zones de text des deux ARN à comparer
         caseArn.add(Arn1);
@@ -46,7 +46,7 @@ public class Affichage2 {
         fenetre.add(comparer);
         fenetre.add(description);
         fenetre.pack();
-        fenetre.setSize(900, 1200);
+        fenetre.setSize(900, 900);
         fenetre.setLayout(null);
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         fenetre.setVisible(true);
