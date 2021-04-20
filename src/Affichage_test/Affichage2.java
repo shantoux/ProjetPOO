@@ -35,11 +35,13 @@ public class Affichage2 {
 
         comparer.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                resultat.setText("Voilà ce que donne la comparaison !");
+                String resultArn1 = Arn1.getText();
+                String resultArn2 = Arn2.getText();
+                System.out.println(resultArn1);
             }
         });
 
-        //fenetre.setLayout(new GridLayout(10, 10)); ????
+
 
         //Ajouter les elements au frame
         fenetre.add(caseArn);
