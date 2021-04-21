@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Affichage3">
+  <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="6" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="500" height="287"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="e2787" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="174" height="79"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="bf704" class="javax.swing.JRadioButton" binding="motifButton">
+            <constraints border-constraint="West"/>
+            <properties>
+              <text value="Détection de motif"/>
+            </properties>
+          </component>
+          <component id="46aa9" class="javax.swing.JRadioButton" binding="egaliteButton">
+            <constraints border-constraint="North"/>
+            <properties>
+              <text value="Tester égalité"/>
+            </properties>
+          </component>
+          <component id="151ab" class="javax.swing.JRadioButton" binding="egalite2Button">
+            <constraints border-constraint="South"/>
+            <properties>
+              <enabled value="true"/>
+              <selected value="false"/>
+              <text value="Tester égalité améliorée"/>
+            </properties>
+          </component>
+          <component id="83059" class="javax.swing.JRadioButton" binding="pgacButton">
+            <constraints border-constraint="East"/>
+            <properties>
+              <text value="Recherche du plus grand motif commun"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <component id="889fb" class="javax.swing.JTextArea" binding="resultatTextField">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="50"/>
+          </grid>
+        </constraints>
+        <properties>
+          <editable value="false"/>
+          <enabled value="false"/>
+          <text value="Résultat de la comparaison..."/>
+        </properties>
+      </component>
+      <component id="44070" class="javax.swing.JButton" binding="comparaisonButton">
+        <constraints>
+          <grid row="5" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Comparer!"/>
+        </properties>
+      </component>
+      <grid id="32f65" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="2f539" class="javax.swing.JTextField" binding="arn1SS">
+            <constraints border-constraint="West"/>
+            <properties>
+              <text value="Entrer la structure secondaire"/>
+            </properties>
+          </component>
+          <component id="7a7b9" class="javax.swing.JTextField" binding="arn2SS">
+            <constraints border-constraint="East"/>
+            <properties>
+              <text value="Entrer la structure secondaire"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="10ad7" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="5b583" class="javax.swing.JTextField" binding="fileArn1">
+            <constraints border-constraint="West"/>
+            <properties>
+              <editable value="true"/>
+              <enabled value="true"/>
+              <horizontalAlignment value="2"/>
+              <text value="Entrer fichier"/>
+            </properties>
+          </component>
+          <component id="3b2a1" class="javax.swing.JTextField" binding="fileArn2">
+            <constraints border-constraint="East"/>
+            <properties>
+              <text value="Entrer fichier"/>
+            </properties>
+          </component>
+          <grid id="c245d" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints border-constraint="North"/>
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </grid>
+        </children>
+      </grid>
+      <component id="b6f01" class="javax.swing.JLabel" binding="labelArn1">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="ARN1"/>
+        </properties>
+      </component>
+      <component id="9cb04" class="javax.swing.JLabel" binding="labelArn2">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="ARN 2"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+  <buttonGroups>
+    <group name="methodes">
+      <member id="46aa9"/>
+      <member id="bf704"/>
+      <member id="151ab"/>
+      <member id="83059"/>
+    </group>
+  </buttonGroups>
+</form>
