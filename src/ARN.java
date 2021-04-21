@@ -174,28 +174,40 @@ public class ARN {
         ARN plusGrandARNCommun = new ARN();
         int tailleMaxCommun = 0;
         int tailleBuffer = 0;
+        int openParenthese = 0;
+        int closedParenthese = 0;
         if (arn1.sequence.length() != 0 && arn2.sequence.length() != 0) {
             for (int i = 0; i < arn1.sequence.length(); i++) {
-                ARN bufferArn = new ARN();
-                tailleBuffer = 0;
                 for (int j = 0; j < arn2.sequence.length(); j++) {
-                    while (i<arn1.sequence.length() && j<arn2.sequence.length()
-                            && arn1.appariements.charAt(i) == arn2.appariements.charAt(j)
-                            && arn1.sequence.charAt(i) == arn2.sequence.charAt(j)){
+                    ARN bufferArn = new ARN();
+                    tailleBuffer = 0;
+                    openParenthese = 0;
+                    closedParenthese = 0;
+                    int k = i;
+                    int l = j;
+                    while (k<arn1.sequence.length() && l<arn2.sequence.length()
+                            && arn1.appariements.charAt(k) == arn2.appariements.charAt(l)
+                            && arn1.sequence.charAt(k) == arn2.sequence.charAt(l)){
 
-                        bufferArn.appariements += arn1.appariements.charAt(i);
-                        bufferArn.sequence += arn1.sequence.charAt(i);
+                        bufferArn.appariements += arn1.appariements.charAt(k);
+                        bufferArn.sequence += arn1.sequence.charAt(k);
                         tailleBuffer += 1;
-                        i += 1;
-                        j += 1;
+                        if (arn1.appariements.charAt(k) == '('){
+                            openParenthese +=1;
+                        }
+                        else if (arn1.appariements.charAt(k) == ')'){
+                            closedParenthese += 1;
+                        }
+                        System.out.println("i :" + i + " j :" +j + " open : " + openParenthese + " closed :" + closedParenthese + " tailles buffer : " + tailleBuffer);
+                        k += 1;
+                        l += 1;
                     }
-                    if (tailleBuffer > tailleMaxCommun) {
+                    if (tailleBuffer > tailleMaxCommun && openParenthese == closedParenthese) {
                         tailleMaxCommun = tailleBuffer;
                         plusGrandARNCommun = bufferArn;
                     }
                 }
             }
-
         }
         if (plusGrandARNCommun.sequence.length() != 0){
             return plusGrandARNCommun;
@@ -214,7 +226,8 @@ public class ARN {
 
 
     public static void main(String[] args) throws IOException {
-        ARN l = new ARN("AAAAAUGCAGUTG", "----((-))----");
+        ARN l = new ARN("AAAAAUGuCAGU", "((((--)--)))");
+        ARN ll = new ARN("AAAAAUGCAGUTG", "((((--))))---");
         ARN l2 = new ARN("UUUAUGCAUUTG", "---((-))----");
         ARN l3 = new ARN("UUAUGCAGUTGa", "--(((---)))-");
         ARN l4 = new ARN("AAAAAUGCAGUTG", "----((-))----");
@@ -223,9 +236,12 @@ public class ARN {
         Arbre sousarbre = Arbre.arnVersArbre(sousARN);
         ARN arn1 = stockholmARN("RF00005.stockholm.txt");
         Arbre a1 = Arbre.arnVersArbre(arn1);
-        Arbre a5 = Arbre.plusGrandArbreCommun(a1,sousarbre);
-        System.out.println(plusGrandARNCommun(arn1, sousARN));
-        System.out.println(a5.arbreVersARN());
+        Arbre essai1 = Arbre.arnVersArbre(l);
+        Arbre essai2 = Arbre.arnVersArbre(ll);
+        Arbre result = Arbre.plusGrandArbreCommun(essai1, essai2);
+        ARN resultat = result.arbreVersARN();
+        System.out.println(resultat);
+
 
 
 
