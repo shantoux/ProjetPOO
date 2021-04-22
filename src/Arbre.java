@@ -68,8 +68,7 @@ public class Arbre {
     /**
      * Méthode qui permet d'obtenir un Arbre représentant la structure secondaire d'un ARN
      *
-     * @param appariements structure secondaire en format parenthèses-tirets
-     * @param sequence     de l'ARN que l'on veut représenter en Arbre
+     * @param arn l'ARN dont on veut l'arbre
      * @return un Arbre raciné dont les noeuds internes sont les bases appariées et les feuilles des bases non appariées
      */
     public static Arbre arnVersArbre(ARN arn) {
@@ -134,4 +133,49 @@ public class Arbre {
         return arnVersArbre(ARN.plusGrandARNCommun(arn1, arn2));
     }
 
+    public void addNoeud(Arbre noeud){
+        this.enfants.add(noeud);
+        noeud.lienVersLePere = this;
+    }
+
+    public Arbre getProchainNoeudInterne(){
+        for (int i = 0; i < this.enfants.size(); i++){
+            if (this.enfants.get(i).enfants != null){
+                return this.enfants.get(i);
+            }
+
+        }
+        return null;
+    }
+
+
+    public Arbre plusGrandArbreCommun(Arbre a1){
+        Arbre plusGrandArbreCommun = new Arbre();
+        int hauteurArbreMax = 0;
+        int hauteurArbre = 0;
+        if (this.enfants != null && a1.enfants != null){
+            for (Arbre noeud1 : this.enfants){
+                Arbre buffer = new Arbre();
+                hauteurArbre = 0;
+                for (Arbre noeud2 : a1.enfants){
+                    System.out.println(noeud1.equals(noeud2));
+                    while (noeud1.equals(noeud2)){
+                        buffer.addNoeud(noeud1);
+                        noeud1 = noeud1.getProchainNoeudInterne();
+                        noeud2 = noeud2.getProchainNoeudInterne();
+                        hauteurArbre+=1;
+                        System.out.println(hauteurArbre);
+                        buffer.affichageArbre();
+                    }
+                }
+                if (hauteurArbre > hauteurArbreMax){
+                    hauteurArbreMax = hauteurArbre;
+                    plusGrandArbreCommun = buffer;
+                }
+            }
+        }
+        return plusGrandArbreCommun;
+    }
 }
+
+
