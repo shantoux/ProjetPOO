@@ -8,7 +8,7 @@ public class Affichage3 extends JFrame {
     private JRadioButton motifButton;
     private JRadioButton egalite2Button;
     private JRadioButton egaliteButton;
-    private JTextArea resultatTextField;
+    private JTextArea resultatTextArea;
     private JButton comparaisonButton;
     private JTextField fileArn1;
     private JTextField fileArn2;
@@ -17,6 +17,8 @@ public class Affichage3 extends JFrame {
     private JLabel labelArn1;
     private JLabel labelArn2;
     private JRadioButton pgacButton;
+    private JRadioButton afficherButton;
+    private JTextArea infoFichier;
 
     public Affichage3() {
         super("Manipulation de structures secondaires");
@@ -25,13 +27,19 @@ public class Affichage3 extends JFrame {
         this.setLocationRelativeTo(null);
         this.setContentPane(mainPanel);
         this.pack();
+        this.resultatTextArea.setLineWrap(true);
 
         fileArn1.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                fileArn1.setText("");
-                arn1SS.setEditable(false);
-                arn2SS.setEditable(false);
+                if (fileArn1.getText().equals("Entrer fichier")){
+                    fileArn1.setText("");
+                    arn1SS.setEditable(false);
+                    arn2SS.setEditable(false);
+                    infoFichier.setText("Veuillez entrer le nom du fichier sans l'extension '.txt'" + "\n" +
+                            "Le fichier doit être présent dans le répertoire local");
+                }
+
             }
 
             @Override
@@ -40,6 +48,8 @@ public class Affichage3 extends JFrame {
                     fileArn1.setText("Entrer fichier");
                     arn1SS.setEditable(true);
                     arn2SS.setEditable(true);
+                    infoFichier.setText("");
+
                 }
             }
         });
@@ -47,9 +57,15 @@ public class Affichage3 extends JFrame {
         fileArn2.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                fileArn2.setText("");
-                arn1SS.setEditable(false);
-                arn2SS.setEditable(false);
+                if (fileArn2.getText().equals("Entrer fichier")){
+                    fileArn2.setText("");
+                    arn1SS.setEditable(false);
+                    arn2SS.setEditable(false);
+                    infoFichier.setText("Veuillez entrer le nom du fichier sans l'extension '.txt'" +
+                            "\n" + "Le fichier doit être présent dans le répertoire local");
+
+                }
+
             }
 
             @Override
@@ -58,6 +74,7 @@ public class Affichage3 extends JFrame {
                     fileArn2.setText("Entrer fichier");
                     arn1SS.setEditable(true);
                     arn2SS.setEditable(true);
+                    infoFichier.setText("");
                 }
             }
         });
@@ -65,15 +82,18 @@ public class Affichage3 extends JFrame {
         arn1SS.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                arn1SS.setText("");
-                fileArn1.setEditable(false);
-                fileArn2.setEditable(false);
+                if (arn1SS.getText().equals("Entrer la structure secondaire")){
+                    arn1SS.setText("");
+                    fileArn1.setEditable(false);
+                    fileArn2.setEditable(false);
+                }
+
             }
 
             @Override
             public void focusLost(FocusEvent e) {
                 if (arn1SS.getText().length() == 0) {
-                    arn1SS.setText("Entrer structure secondaire");
+                    arn1SS.setText("Entrer la structure secondaire");
                     fileArn1.setEditable(true);
                     fileArn2.setEditable(true);
                 }
@@ -83,15 +103,18 @@ public class Affichage3 extends JFrame {
         arn2SS.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                arn2SS.setText("");
-                fileArn1.setEditable(false);
-                fileArn2.setEditable(false);
+                if (arn2SS.getText().equals("Entrer la structure secondaire")){
+                    arn2SS.setText("");
+                    fileArn1.setEditable(false);
+                    fileArn2.setEditable(false);
+                }
+
             }
 
             @Override
             public void focusLost(FocusEvent e) {
                 if (arn2SS.getText().length() == 0) {
-                    arn2SS.setText("Entrer structure secondaire");
+                    arn2SS.setText("Entrer la structure secondaire");
                     fileArn1.setEditable(true);
                     fileArn2.setEditable(true);
                 }
@@ -104,14 +127,14 @@ public class Affichage3 extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 ARN arn1 = new ARN();
                 ARN arn2 = new ARN();
-                if (fileArn1.getText().contains("txt") && fileArn2.getText().contains("txt")){
+                if (!fileArn1.getText().contains("Entrer fichier") && !fileArn2.getText().contains("Entrer fichier")){
                     try {
-                        arn1 = ARN.stockholmARN(fileArn1.getText());
+                        arn1 = ARN.stockholmToARN(fileArn1.getText()+".txt");
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }
                     try {
-                        arn2 = ARN.stockholmARN(fileArn2.getText());
+                        arn2 = ARN.stockholmToARN(fileArn2.getText()+".txt");
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }
@@ -120,17 +143,26 @@ public class Affichage3 extends JFrame {
                     arn1 = new ARN(arn1SS.getText());
                     arn2 = new ARN(arn2SS.getText());
                 }
+                String affichageDesARNs = "ARN1 :" + "\n" + arn1.toString() + "\n\n" +
+                        "ARN2 :" + "\n" + arn2.toString() + "\n";
                 if (motifButton.isSelected()){
-                    resultatTextField.setText(Boolean.toString(arn1.rechercheDeMotifs(arn2, "structure")));
+                    resultatTextArea.setText(arn1.rechercheDeMotifs(arn2, "structure"));
                 }
                 else if (egaliteButton.isSelected()){
-                    resultatTextField.setText(Boolean.toString(arn1.equals(arn2, "structure")));
+                    resultatTextArea.setText(Boolean.toString(arn1.equals(arn2, "structure")));
                 }
                 else if (egalite2Button.isSelected()){
-                    resultatTextField.setText(Boolean.toString(arn1.equalsSansTirets(arn2, "structure")));
+                    resultatTextArea.setText(Boolean.toString(arn1.equalsSansTirets(arn2, "structure")));
                 }
                 else if (pgacButton.isSelected()&&fileArn1.getText().length()!=0){
-                    resultatTextField.setText(ARN.plusGrandARNCommun(arn1, arn2).toString());
+                    try {
+                        resultatTextArea.setText(ARN.plusGrandARNCommun(arn1, arn2).toString());
+                    } catch (Exception exception) {
+                        resultatTextArea.setText("pas de motif commun trouvé");
+                    }
+                }
+                else if (afficherButton.isSelected()){
+                    resultatTextArea.setText(affichageDesARNs);
                 }
             }
         });

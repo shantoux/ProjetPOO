@@ -8,49 +8,50 @@ public class ARN {
 
     //CONSTRUCTEURS
 
-    public ARN(String sequence, String appariements){
+    public ARN(String sequence, String appariements) {
         this.sequence = sequence;
         this.appariements = appariements;
     }
-    public ARN(){
+
+    public ARN() {
         this.sequence = "";
         this.appariements = "";
     }
-    public ARN(String appariements){
+
+    public ARN(String appariements) {
         this.appariements = appariements;
     }
 
     @Override
-    public String toString(){
-        return(this.sequence + "\n" + this.appariements);
+    public String toString() {
+        return (this.sequence + "\n" + this.appariements);
     }
 
     /**
      * Parser de fichiers txt stockholm afin de récupérer la séquence consensus ainsi que l'appariements au format
      * parenthèses-tirets et non WUSS
+     *
      * @param file fichier txt de l'ARN dont on veut la séquence et la structure
      * @return un ARN(sequence, appariements)
      */
-    public static ARN stockholmARN(String file) throws IOException {
+    public static ARN stockholmToARN(String file) throws IOException {
         FileReader stockholm = new FileReader(file);
         BufferedReader br = new BufferedReader(stockholm);
-        String appariements=null;
+        String appariements = null;
         String sequence = null;
         String line;
-        while((line =  br.readLine()) != null){
-            if (line.contains("#=GC SS_cons"))
-            {
+        while ((line = br.readLine()) != null) {
+            if (line.contains("#=GC SS_cons")) {
                 appariements = line.substring(line.indexOf("SS_cons") + 7);
                 appariements = appariements.trim();
-                appariements = appariements.replaceAll("\\.","");
+                appariements = appariements.replaceAll("\\.", "");
                 appariements = appariements.replaceAll("<", "(");
-                appariements = appariements.replaceAll(">",")");
-                appariements = appariements.replaceAll("_","-");
-                appariements = appariements.replaceAll(",","-");
-                appariements = appariements.replaceAll(":","-");
+                appariements = appariements.replaceAll(">", ")");
+                appariements = appariements.replaceAll("_", "-");
+                appariements = appariements.replaceAll(",", "-");
+                appariements = appariements.replaceAll(":", "-");
             }
-            if (line.contains("#=GC RF"))
-            {
+            if (line.contains("#=GC RF")) {
                 sequence = line.substring(line.indexOf("RF") + 2);
                 sequence = sequence.trim();
                 sequence = sequence.replaceAll("\\.", "");
@@ -59,34 +60,48 @@ public class ARN {
         return new ARN(sequence, appariements);
     }
 
-    //définition d'une énumération pour le type de méthode à effectuer pour certaines méthodes
-    public enum Methode {structure, sequence};
 
     /**
      * Méthode qui permet de vérifier l'égalité stricte de deux ARN, soit en comparer leurs structures seules ou leurs
      * structures et séquences
-     * @param arn : l'arn avec lequel on veut comparer l'arn qui appelle la méthode
+     *
+     * @param arn     : l'arn avec lequel on veut comparer l'arn qui appelle la méthode
      * @param methode : methode.structure si on veut comparer les structures et methode.sequence lorsqu'on veut comparer
      *                structure et séquences
      * @return
      */
-    public boolean equals(ARN arn, String methode){
+    public boolean equals(ARN arn, String methode) {
         boolean res = false;
-        if (methode.equals("structure")){
+        if (methode.equals("structure")) {
             res = this.appariements.equals(arn.appariements);
-        }
-        else if (methode.equals("sequence")){
-            res = (this.sequence.equals(arn.sequence)&&this.appariements.equals(arn.appariements));
+        } else if (methode.equals("sequence")) {
+            res = (this.sequence.equals(arn.sequence) && this.appariements.equals(arn.appariements));
         }
         return res;
     }
 
+    public ARN removeTiretsDebutEtFinARN() {
+        String appariements = this.appariements;
+        String sequence = this.sequence;
+        if (appariements.indexOf('(') != 0) {
+            int index = appariements.indexOf('(');
+            appariements = appariements.substring(index);
+            sequence = sequence.substring(index);
+        }
+        if (appariements.lastIndexOf(')') != -1) {
+            int endIndex = appariements.lastIndexOf(')');
+            appariements = appariements.substring(0, endIndex + 1);
+            sequence = sequence.substring(0, endIndex + 1);
+        }
+        return new ARN(sequence, appariements);
+    }
 
     /**
      * teste l'égalité entre deux ARNs, sans tenir compte des bases non appariées de début de chaînes
-     * @param arn que l'on veut comparer
+     *
+     * @param arn     que l'on veut comparer
      * @param methode : methode.structure si on veut comparer les structures et methode.sequence lorsqu'on veut comparer
-     *      *                structure et séquences
+     *                *                structure et séquences
      * @return
      */
     public boolean equalsSansTirets(ARN arn, String methode) {
@@ -94,24 +109,21 @@ public class ARN {
         int j = 0;
         while (this.appariements.charAt(i) == '-') i++;
         while (arn.appariements.charAt(j) == '-') j++;
-        if (methode.equals("structure")){
-            while (i<this.appariements.length() && j<arn.appariements.length()){
-                if (this.appariements.charAt(i) == arn.appariements.charAt(j)){
+        if (methode.equals("structure")) {
+            while (i < this.appariements.length() && j < arn.appariements.length()) {
+                if (this.appariements.charAt(i) == arn.appariements.charAt(j)) {
                     i++;
                     j++;
-                }
-                else {
+                } else {
                     return false;
                 }
             }
-        }
-        else if (methode.equals("sequence")){
-            while (i<this.appariements.length() && j<arn.appariements.length()){
-                if (this.sequence.charAt(i) == arn.sequence.charAt(j)){
+        } else if (methode.equals("sequence")) {
+            while (i < this.appariements.length() && j < arn.appariements.length()) {
+                if (this.sequence.charAt(i) == arn.sequence.charAt(j)) {
                     i++;
                     j++;
-                }
-                else {
+                } else {
                     return false;
                 }
             }
@@ -121,53 +133,41 @@ public class ARN {
 
     /**
      * Méthode pour rechercher si l'arn qui appelle la méthode contient le motif (ARN) passé en paramètre.
-     * @param arn : motif recherché
+     *
+     * @param motif   : motif recherché
      * @param methode : "structure" si on recherche un motif uniquement structurel "sequence" si on recherche structure
      *                ET séquence
      * @return true si le motif est trouvé
      */
     //
-    public boolean rechercheDeMotifs(ARN arn, String methode){
-        if (arn.appariements.length() > this.appariements.length()){
-            System.out.print("Recherche de motif impossible car le motif est plus grand que l'ARN testé : ");
-            return false;
-        }
-        boolean res = false;
-        int cptBasesEgales = 1;
-        if (methode.equals("structure")){
-            for (int j =0; j<this.appariements.length();j++){
-                if (j + arn.appariements.length() <= this.appariements.length()){
-                    int i = 0;
-                    while (arn.appariements.charAt(i) == (this.appariements.charAt(i+j))
-                            && cptBasesEgales < arn.appariements.length()){
-                        cptBasesEgales += 1;
-                        i += 1;
-                    }
-                    if (cptBasesEgales == arn.appariements.length()){
-                        res = true;
-                        return res;
+
+    public String rechercheDeMotifs(ARN motif, String methode) {
+
+        if (motif.appariements.length()<=this.appariements.length()) {
+            if (methode.equals("structure")){
+                for (int i = 0; i < this.appariements.length()-(motif.appariements.length()-1); i++){
+                    String subAppariements = this.appariements.substring(i,i+motif.appariements.length());
+                    if (subAppariements.equals(motif.appariements)){
+                        return "motif trouvé";
                     }
                 }
             }
-        }
-        else if (methode.equals("sequence")){
-            for (int j =0; j<this.appariements.length();j++) {
-                if (j + arn.appariements.length() <= this.appariements.length()){
-                    int i = 0;
-                    while (arn.appariements.charAt(i) == (this.appariements.charAt(i+j))
-                            && cptBasesEgales < arn.appariements.length()
-                            && arn.sequence.charAt(i) == (this.sequence.charAt(i+j))){
-                        cptBasesEgales += 1;
-                        i += 1;
-                    }
-                    if (cptBasesEgales == arn.appariements.length()){
-                        res = true;
-                        return res;
+            if (methode.equals("sequence")){
+                for (int i=0; i < this.appariements.length()-(motif.appariements.length()-1); i++){
+                    String subAppariements = this.appariements.substring(i, i+motif.appariements.length());
+                    String subSequence = this.sequence;
+                    ARN subARN = new ARN(this.sequence.substring(i,i+motif.sequence.length()),
+                            this.appariements.substring(i,i+motif.appariements.length()));
+                    if (subARN.equals(motif,"sequence")){
+                        return "motif trouvé";
                     }
                 }
             }
+            return "motif non trouvé";
+        } else {
+            return ("Recherche de motif impossible : le motif entré est plus grand que l'ARN" + "\n" +
+                    "dans laquelle s'effectue la recherche. Essayez d'inverser les entrées.");
         }
-        return res;
     }
 
     public static ARN plusGrandARNCommun(ARN arn1, ARN arn2) {
@@ -185,20 +185,18 @@ public class ARN {
                     closedParenthese = 0;
                     int k = i;
                     int l = j;
-                    while (k<arn1.sequence.length() && l<arn2.sequence.length()
+                    while (k < arn1.sequence.length() && l < arn2.sequence.length()
                             && arn1.appariements.charAt(k) == arn2.appariements.charAt(l)
-                            && arn1.sequence.charAt(k) == arn2.sequence.charAt(l)){
+                            && arn1.sequence.charAt(k) == arn2.sequence.charAt(l)) {
 
                         bufferArn.appariements += arn1.appariements.charAt(k);
                         bufferArn.sequence += arn1.sequence.charAt(k);
                         tailleBuffer += 1;
-                        if (arn1.appariements.charAt(k) == '('){
-                            openParenthese +=1;
-                        }
-                        else if (arn1.appariements.charAt(k) == ')'){
+                        if (arn1.appariements.charAt(k) == '(') {
+                            openParenthese += 1;
+                        } else if (arn1.appariements.charAt(k) == ')') {
                             closedParenthese += 1;
                         }
-                        System.out.println("i :" + i + " j :" +j + " open : " + openParenthese + " closed :" + closedParenthese + " tailles buffer : " + tailleBuffer);
                         k += 1;
                         l += 1;
                     }
@@ -209,20 +207,13 @@ public class ARN {
                 }
             }
         }
-        if (plusGrandARNCommun.sequence.length() != 0){
+        if (plusGrandARNCommun.sequence.length() != 0) {
             return plusGrandARNCommun;
-        }
-        else {
+        } else {
             System.out.println("Pas de sous ARN commun trouvé => Pas de sous arbre commun");
             return null;
         }
     }
-
-
-
-
-
-
 
 
     public static void main(String[] args) throws IOException {
@@ -231,27 +222,16 @@ public class ARN {
         ARN l2 = new ARN("UUUAUGCAUUTG", "---((-))----");
         ARN l3 = new ARN("UUAUGCAGUTGa", "--(((---)))-");
         ARN l4 = new ARN("AAAAAUGCAGUTG", "----((-))----");
-        ARN motif = new ARN("cgcuaucucCa","))))))))))-");
-        ARN sousARN = new ARN("gutjdhucgGaCUuaaAAuCcga","------(((((-------)))))");
+        ARN motif = new ARN("cgcuaucucCa", "))))))))))-");
+        ARN sousARN = new ARN("gutjdhucgGaCUuaaAAuCcga", "------(((((-------)))))");
         Arbre sousarbre = Arbre.arnVersArbre(sousARN);
-        ARN arn1 = stockholmARN("RF00005.stockholm.txt");
-        Arbre a1 = Arbre.arnVersArbre(arn1);
-        Arbre essai1 = Arbre.arnVersArbre(l);
-        Arbre essai2 = Arbre.arnVersArbre(ll);
-        Arbre result = Arbre.plusGrandArbreCommun(essai1, essai2);
-        ARN resultat = result.arbreVersARN();
-        System.out.println(resultat);
-
-
-
-
-
-
-
-
-
+        ARN arn1 = stockholmToARN("RF00005.stockholm.txt");
+        System.out.println(arn1.removeTiretsDebutEtFinARN() + "\n" + arn1);
+        System.out.println(arn1.rechercheDeMotifs(motif,"sequence"));
+        System.out.println(motif.rechercheDeMotifs(arn1,"structure"));
+        System.out.println(stockholmToARN("essai.txt"));
+        System.out.println(stockholmToARN("essai1.txt"));
     }
-
 
 
 }
