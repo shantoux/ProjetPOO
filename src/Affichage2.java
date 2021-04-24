@@ -38,8 +38,8 @@ public class Affichage2 {
                 String resultArn2 = Arn2.getText();
                 System.out.println(resultArn1);
 
-                Arbre parentheseArn1 = Arbre.arnVersArbre(resultArn1);
-                Arbre parentheseArn2 = Arbre.arnVersArbre(resultArn2);
+//                Arbre parentheseArn1 = Arbre.arnVersArbre(resultArn1);
+//                Arbre parentheseArn2 = Arbre.arnVersArbre(resultArn2);
             }
         });
 

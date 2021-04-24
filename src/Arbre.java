@@ -113,6 +113,11 @@ public class Arbre {
     }
 
 
+    /**
+     * @param a1
+     * @param a2
+     * @return renvoie le plus grand Arbre commun entre a1 et a2 passés en paramètres
+     */
     public static Arbre plusGrandArbreCommun(Arbre a1, Arbre a2) {
         ARN arn1 = a1.arbreVersARN();
         ARN arn2 = a2.arbreVersARN();

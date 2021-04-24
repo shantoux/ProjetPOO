@@ -80,6 +80,9 @@ public class ARN {
         return res;
     }
 
+    /**
+     * @return ARN délesté des bases non appariées en début et fin de chaîne
+     */
     public ARN removeTiretsDebutEtFinARN() {
         String appariements = this.appariements;
         String sequence = this.sequence;
@@ -105,30 +108,14 @@ public class ARN {
      * @return
      */
     public boolean equalsSansTirets(ARN arn, String methode) {
-        int i = 0;
-        int j = 0;
-        while (this.appariements.charAt(i) == '-') i++;
-        while (arn.appariements.charAt(j) == '-') j++;
+        ARN trimedArn1 = this.removeTiretsDebutEtFinARN();
+        ARN trimedArn2 = arn.removeTiretsDebutEtFinARN();
         if (methode.equals("structure")) {
-            while (i < this.appariements.length() && j < arn.appariements.length()) {
-                if (this.appariements.charAt(i) == arn.appariements.charAt(j)) {
-                    i++;
-                    j++;
-                } else {
-                    return false;
-                }
-            }
+            return (trimedArn1.equals(trimedArn2,"structure"));
         } else if (methode.equals("sequence")) {
-            while (i < this.appariements.length() && j < arn.appariements.length()) {
-                if (this.sequence.charAt(i) == arn.sequence.charAt(j)) {
-                    i++;
-                    j++;
-                } else {
-                    return false;
-                }
-            }
+            return (trimedArn1.equals(trimedArn2,"sequence"));
         }
-        return true;
+        return false;
     }
 
     /**
@@ -139,8 +126,6 @@ public class ARN {
      *                ET séquence
      * @return true si le motif est trouvé
      */
-    //
-
     public String rechercheDeMotifs(ARN motif, String methode) {
 
         if (motif.appariements.length()<=this.appariements.length()) {
@@ -170,6 +155,11 @@ public class ARN {
         }
     }
 
+    /**
+     * @param arn1
+     * @param arn2
+     * @return retourne le plus grand motif commun à arn1 et arn2 sous forme d'un nouvel ARN
+     */
     public static ARN plusGrandARNCommun(ARN arn1, ARN arn2) {
         ARN plusGrandARNCommun = new ARN();
         int tailleMaxCommun = 0;
