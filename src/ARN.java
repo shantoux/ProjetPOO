@@ -148,8 +148,8 @@ public class ARN {
             }
             return "motif non trouvé";
         } else {
-            return ("Recherche de motif impossible : le motif entré est plus grand que l'ARN" + "\n" +
-                    "dans laquelle s'effectue la recherche. Essayez d'inverser les entrées.");
+            return ("Recherche de motif impossible --> le motif entré est plus grand que l'ARN dans lequel s'effectue " +
+                    "la recherche. Essayez d'inverser les entrées.");
         }
     }
 

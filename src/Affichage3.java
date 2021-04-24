@@ -146,13 +146,34 @@ public class Affichage3 extends JFrame {
                 String affichageDesARNs = "ARN1 :" + "\n" + arn1.toString() + "\n\n" +
                         "ARN2 :" + "\n" + arn2.toString() + "\n";
                 if (motifButton.isSelected()){
-                    resultatTextArea.setText(arn1.rechercheDeMotifs(arn2, "structure"));
+                    if (arn1.sequence != null && arn2.sequence != null){
+                        resultatTextArea.setText("Recherche de motif structurel : "
+                                + arn1.rechercheDeMotifs(arn2, "structure") + "\n\n"
+                                + "Recherche de motif identique : " + arn1.rechercheDeMotifs(arn2,"sequence"));
+                    }
+                    else {
+                        resultatTextArea.setText(arn1.rechercheDeMotifs(arn2, "structure"));
+                    }
                 }
                 else if (egaliteButton.isSelected()){
-                    resultatTextArea.setText(Boolean.toString(arn1.equals(arn2, "structure")));
+                    if (arn1.sequence != null && arn2.sequence != null) {
+                        resultatTextArea.setText("égalité de structure : "
+                                + arn1.equals(arn2, "structure") + "\n\n"
+                                + "égalité stricte : " + arn1.equals(arn2, "sequence"));
+                    } else {
+                        resultatTextArea.setText(Boolean.toString(arn1.equals(arn2, "structure")));
+
+                    }
                 }
                 else if (egalite2Button.isSelected()){
-                    resultatTextArea.setText(Boolean.toString(arn1.equalsSansTirets(arn2, "structure")));
+                    if (arn1.sequence != null && arn2.sequence != null) {
+                        resultatTextArea.setText("égalité de structure : " +
+                                Boolean.toString(arn1.equalsSansTirets(arn2, "structure")) + "\n\n"
+                                + "égalité stricte : "+Boolean.toString(arn1.equalsSansTirets(arn2, "sequence")));
+                    } else {
+                        resultatTextArea.setText(Boolean.toString(arn1.equalsSansTirets(arn2, "structure")));
+
+                    }
                 }
                 else if (pgacButton.isSelected()&&fileArn1.getText().length()!=0){
                     try {
