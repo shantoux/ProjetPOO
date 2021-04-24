@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 /**
@@ -10,7 +9,7 @@ import java.util.Objects;
  * sentant des bases appariées, l'attribut "base" contient les deux bases (ex : GC)
  */
 public class Arbre {
-    private ArrayList<Arbre> enfants = new ArrayList();
+    private final ArrayList<Arbre> enfants = new ArrayList();
     private Arbre lienVersLePere = null;
     private String base;
 
@@ -92,36 +91,41 @@ public class Arbre {
     }
 
     public ARN arbreVersARN() {
-        String parenthese = new String("");
-        String sequence = new String("");
+        StringBuilder parenthese = new StringBuilder();
+        StringBuilder sequence = new StringBuilder();
         if (this.enfants != null) {
             for (Arbre noeud : this.enfants) {
                 if (noeud.enfants.size() == 0) {
-                    parenthese += "-";
-                    sequence += noeud.base;
+                    parenthese.append("-");
+                    sequence.append(noeud.base);
                 } else {
-                    parenthese += "(";
-                    sequence += noeud.base.charAt(0);
-                    parenthese += noeud.arbreVersARN().appariements;
-                    sequence += noeud.arbreVersARN().sequence;
-                    parenthese += ")";
-                    sequence += noeud.base.charAt(1);
+                    parenthese.append("(");
+                    sequence.append(noeud.base.charAt(0));
+                    parenthese.append(noeud.arbreVersARN().appariements);
+                    sequence.append(noeud.arbreVersARN().sequence);
+                    parenthese.append(")");
+                    sequence.append(noeud.base.charAt(1));
                 }
             }
         }
-        return new ARN(sequence, parenthese);
+        return new ARN(sequence.toString(), parenthese.toString());
     }
 
 
     /**
-     * @param a1
-     * @param a2
+     * @param a1 premier Arbre passé en paramètre
+     * @param a2 deuxième Arbre passé en paramètre
      * @return renvoie le plus grand Arbre commun entre a1 et a2 passés en paramètres
      */
     public static Arbre plusGrandArbreCommun(Arbre a1, Arbre a2) {
         ARN arn1 = a1.arbreVersARN();
         ARN arn2 = a2.arbreVersARN();
-        return arnVersArbre(ARN.plusGrandARNCommun(arn1, arn2));
+        if (ARN.plusGrandARNCommun(arn1, arn2) != null){
+            return arnVersArbre(ARN.plusGrandARNCommun(arn1, arn2));
+        }
+        else {
+            return null;
+        }
     }
 
 //    public void addNoeud(Arbre noeud){

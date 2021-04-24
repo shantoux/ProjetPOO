@@ -68,7 +68,7 @@ public class ARN {
      * @param arn     : l'arn avec lequel on veut comparer l'arn qui appelle la méthode
      * @param methode : methode.structure si on veut comparer les structures et methode.sequence lorsqu'on veut comparer
      *                structure et séquences
-     * @return
+     * @return un booléen, si vrai les deux ARNs sont égaux, si faux, ils ne le sont pas
      */
     public boolean equals(ARN arn, String methode) {
         boolean res = false;
@@ -103,9 +103,9 @@ public class ARN {
      * teste l'égalité entre deux ARNs, sans tenir compte des bases non appariées de début de chaînes
      *
      * @param arn     que l'on veut comparer
-     * @param methode : methode.structure si on veut comparer les structures et methode.sequence lorsqu'on veut comparer
+     * @param methode : "structure" si on veut comparer les structures et "sequence" lorsqu'on veut comparer
      *                *                structure et séquences
-     * @return
+     * @return un booléen : vrai si les ARNs sont égaux, sans compter les bases non appariées en début et fin de chaîne
      */
     public boolean equalsSansTirets(ARN arn, String methode) {
         ARN trimedArn1 = this.removeTiretsDebutEtFinARN();
@@ -139,8 +139,6 @@ public class ARN {
             }
             if (methode.equals("sequence")){
                 for (int i=0; i < this.appariements.length()-(motif.appariements.length()-1); i++){
-                    String subAppariements = this.appariements.substring(i, i+motif.appariements.length());
-                    String subSequence = this.sequence;
                     ARN subARN = new ARN(this.sequence.substring(i,i+motif.sequence.length()),
                             this.appariements.substring(i,i+motif.appariements.length()));
                     if (subARN.equals(motif,"sequence")){
@@ -156,16 +154,16 @@ public class ARN {
     }
 
     /**
-     * @param arn1
-     * @param arn2
+     * @param arn1 : premier ARN entré
+     * @param arn2 : deuxième ARN entré
      * @return retourne le plus grand motif commun à arn1 et arn2 sous forme d'un nouvel ARN
      */
     public static ARN plusGrandARNCommun(ARN arn1, ARN arn2) {
         ARN plusGrandARNCommun = new ARN();
         int tailleMaxCommun = 0;
-        int tailleBuffer = 0;
-        int openParenthese = 0;
-        int closedParenthese = 0;
+        int tailleBuffer;
+        int openParenthese;
+        int closedParenthese;
         if (arn1.sequence.length() != 0 && arn2.sequence.length() != 0) {
             for (int i = 0; i < arn1.sequence.length(); i++) {
                 for (int j = 0; j < arn2.sequence.length(); j++) {
