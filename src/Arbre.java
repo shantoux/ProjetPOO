@@ -70,7 +70,7 @@ public class Arbre {
     public ARN arbreVersARN() {
         StringBuilder parenthese = new StringBuilder();
         StringBuilder sequence = new StringBuilder();
-        if (this.enfants != null) {
+        if (this.enfants.size() != 0) {
             for (Arbre noeud : this.enfants) {
                 if (noeud.enfants.size() == 0) {
                     parenthese.append("-");

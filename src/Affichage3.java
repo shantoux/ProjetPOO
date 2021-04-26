@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.io.File;
 
 public class Affichage3 extends JFrame {
 
@@ -36,7 +37,7 @@ public class Affichage3 extends JFrame {
                     fileArn1.setText("");
                     arn1SS.setEditable(false);
                     arn2SS.setEditable(false);
-                    infoFichier.setText("Veuillez entrer le nom du fichier sans l'extension '.txt'" + "\n" +
+                    infoFichier.setText("Veuillez entrer le nom du fichier sans l'extension '.stockholm.txt'" + "\n" +
                             "Le fichier doit être présent dans le répertoire local");
                 }
 
@@ -51,6 +52,16 @@ public class Affichage3 extends JFrame {
                     infoFichier.setText("");
 
                 }
+                else {
+                    File f = new File(fileArn1.getText()+".stockholm.txt");
+                    if(!f.exists() || f.isDirectory()) {
+                        resultatTextArea.setText("/!\\le fichier ARN1 n'a pas été trouvé dans le répertoire local." +
+                                " Veuillez entrer un fichier présent dans le répertoire local");
+                    }
+                    else {
+                        resultatTextArea.setText("Résultat de la comparaison...");
+                    }
+                }
             }
         });
 
@@ -61,7 +72,7 @@ public class Affichage3 extends JFrame {
                     fileArn2.setText("");
                     arn1SS.setEditable(false);
                     arn2SS.setEditable(false);
-                    infoFichier.setText("Veuillez entrer le nom du fichier sans l'extension '.txt'" +
+                    infoFichier.setText("Veuillez entrer le nom du fichier sans l'extension '.stockholm.txt'" +
                             "\n" + "Le fichier doit être présent dans le répertoire local");
 
                 }
@@ -76,6 +87,17 @@ public class Affichage3 extends JFrame {
                     arn2SS.setEditable(true);
                     infoFichier.setText("");
                 }
+                else {
+                    File f = new File(fileArn2.getText()+".stockholm.txt");
+                    if(!f.exists() || f.isDirectory()) {
+                        resultatTextArea.setText("/!\\le fichier ARN2 n'a pas été trouvé dans le répertoire local." +
+                                " Veuillez entrer un fichier présent dans le répertoire local");
+                    }
+                    else{
+                        resultatTextArea.setText("Résultat de la comparaison...");
+                    }
+                }
+
             }
         });
 
@@ -129,12 +151,12 @@ public class Affichage3 extends JFrame {
                 ARN arn2 = new ARN();
                 if (!fileArn1.getText().contains("Entrer fichier") && !fileArn2.getText().contains("Entrer fichier")){
                     try {
-                        arn1 = ARN.stockholmToARN(fileArn1.getText()+".txt");
+                        arn1 = ARN.stockholmToARN(fileArn1.getText()+".stockholm.txt");
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }
                     try {
-                        arn2 = ARN.stockholmToARN(fileArn2.getText()+".txt");
+                        arn2 = ARN.stockholmToARN(fileArn2.getText()+".stockholm.txt");
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }
@@ -184,6 +206,9 @@ public class Affichage3 extends JFrame {
                 }
                 else if (afficherButton.isSelected()){
                     resultatTextArea.setText(affichageDesARNs);
+                }
+                else{
+                    resultatTextArea.setText("Veuillez sélectionner une méthode de comparaison :)");
                 }
             }
         });

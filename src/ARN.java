@@ -197,27 +197,27 @@ public class ARN {
      * @return retourne le plus grand motif commun à arn1 et arn2 sous forme d'un nouvel ARN
      */
     public ARN plusGrandARNCommun(ARN arn2) {
-        ARN plusGrandARNCommun = new ARN();
-        int tailleMaxCommun = 0;
-        int tailleBuffer;
-        int openParenthese;
-        int closedParenthese;
-        if (this.sequence.length() != 0 && arn2.sequence.length() != 0) {
-            for (int i = 0; i < this.sequence.length(); i++) {
-                for (int j = 0; j < arn2.sequence.length(); j++) {
-                    ARN bufferArn = new ARN();
-                    tailleBuffer = 0;
-                    openParenthese = 0;
-                    closedParenthese = 0;
-                    int k = i;
-                    int l = j;
+        ARN plusGrandARNCommun = new ARN(); //ARN retourné par la méthode
+        int tailleMaxCommun = 0; //Remplacé par la taille du buffer si elle est plus grande
+        int tailleBuffer;//taille de l'ARN buffer
+        int openParenthese;//compteur de parenthèses ouvrantes
+        int closedParenthese;//compteur de parenthèses fermantes
+        if (this.sequence.length() != 0 || arn2.sequence.length() != 0) { //si l'un est vide, pas de motif possible
+            for (int i = 0; i < this.sequence.length(); i++) { //boucle sur la sequence arn1
+                for (int j = 0; j < arn2.sequence.length(); j++) { //boucle sur la sequence arn2
+                    ARN bufferArn = new ARN(); //instanciation d'un ARN buffer
+                    tailleBuffer = 0; //mise à zero de la taille
+                    openParenthese = 0; //mise à zéro du cpt de parentheses ouvrantes
+                    closedParenthese = 0; // mise à zéro du cpt de parenthèses fermantes
+                    int k = i; //index de la sous-boucle de parcours de arn1
+                    int l = j; //index de la sous-boucle de parcours de arn2
                     while (k < this.sequence.length() && l < arn2.sequence.length()
                             && this.appariements.charAt(k) == arn2.appariements.charAt(l)
                             && this.sequence.charAt(k) == arn2.sequence.charAt(l)) {
 
-                        bufferArn.appariements += this.appariements.charAt(k);
-                        bufferArn.sequence += this.sequence.charAt(k);
-                        tailleBuffer += 1;
+                        bufferArn.appariements += this.appariements.charAt(k);//extension du String appariements
+                        bufferArn.sequence += this.sequence.charAt(k);//extension du String sequence
+                        tailleBuffer += 1;//ajout d'un au compteur de la taille de l'ARN Buffer
                         if (this.appariements.charAt(k) == '(') {
                             openParenthese += 1;
                         } else if (this.appariements.charAt(k) == ')') {
