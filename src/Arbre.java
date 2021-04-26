@@ -51,31 +51,8 @@ public class Arbre {
     }
 
 
-    /**
-     * Méthode qui permet d'obtenir un Arbre représentant la structure secondaire d'un ARN
-     *
-     * @param arn l'ARN dont on veut l'arbre
-     * @return un Arbre raciné dont les noeuds internes sont les bases appariées et les feuilles des bases non appariées
-     */
-    public static Arbre arnVersArbre(ARN arn) {
-        String appariements = arn.appariements;
-        String sequence = arn.sequence;
-        Arbre racine = new Arbre();
-        Arbre pere = racine; //buffer
-        for (int i = 0; i < appariements.length(); i++) {
-            if (appariements.charAt(i) == '-') { //tiret = base non appariée
-                pere.addEnfant(Character.toString(sequence.charAt(i))); //ajout d'un enfant au buffer
-            } else if (appariements.charAt(i) == '(') { //( = première base d'un couple de bases appariées
-                pere.addEnfant(Character.toString(sequence.charAt(i))); //ajout d'un enfant au buffer
-                pere = pere.getDernierEnfantAjoute();//l'enfant ajouté devient le nouveau buffer
-            } else if (appariements.charAt(i) == ')') { //) = deuxième base d'un couple de bases appariées
-                pere.addPaire(Character.toString(sequence.charAt(i)));//ajout d'une base au buffer
-                // qui contient désormais une paire de bases
-                pere = pere.getLienVersLePere();//l'ancêtre du buffer devient le nouveau buffer
-            }
-        }
-        return racine;//retour de l'arbre créé
-    }
+
+
 
 
     //Affichage sommaire de l'arbre pour vérification de la méthode parentheseVersArbre
@@ -101,8 +78,8 @@ public class Arbre {
                 } else {
                     parenthese.append("(");
                     sequence.append(noeud.base.charAt(0));
-                    parenthese.append(noeud.arbreVersARN().appariements);
-                    sequence.append(noeud.arbreVersARN().sequence);
+                    parenthese.append(noeud.arbreVersARN().getAppariements());
+                    sequence.append(noeud.arbreVersARN().getSequence());
                     parenthese.append(")");
                     sequence.append(noeud.base.charAt(1));
                 }
@@ -113,15 +90,14 @@ public class Arbre {
 
 
     /**
-     * @param a1 premier Arbre passé en paramètre
-     * @param a2 deuxième Arbre passé en paramètre
+      @param a2 deuxième Arbre passé en paramètre
      * @return renvoie le plus grand Arbre commun entre a1 et a2 passés en paramètres
      */
-    public static Arbre plusGrandArbreCommun(Arbre a1, Arbre a2) {
-        ARN arn1 = a1.arbreVersARN();
+    public Arbre plusGrandArbreCommun(Arbre a2) {
+        ARN arn1 = this.arbreVersARN();
         ARN arn2 = a2.arbreVersARN();
-        if (ARN.plusGrandARNCommun(arn1, arn2) != null){
-            return arnVersArbre(ARN.plusGrandARNCommun(arn1, arn2));
+        if (arn1.plusGrandARNCommun(arn2) != null){
+            return arn1.plusGrandARNCommun(arn2).arnVersArbre();
         }
         else {
             return null;

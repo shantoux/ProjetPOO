@@ -146,7 +146,7 @@ public class Affichage3 extends JFrame {
                 String affichageDesARNs = "ARN1 :" + "\n" + arn1.toString() + "\n\n" +
                         "ARN2 :" + "\n" + arn2.toString() + "\n";
                 if (motifButton.isSelected()){
-                    if (arn1.sequence != null && arn2.sequence != null){
+                    if (arn1.getSequence() != null && arn2.getSequence() != null){
                         resultatTextArea.setText("Recherche de motif structurel : "
                                 + arn1.rechercheDeMotifs(arn2, "structure") + "\n\n"
                                 + "Recherche de motif identique : " + arn1.rechercheDeMotifs(arn2,"sequence"));
@@ -156,7 +156,7 @@ public class Affichage3 extends JFrame {
                     }
                 }
                 else if (egaliteButton.isSelected()){
-                    if (arn1.sequence != null && arn2.sequence != null) {
+                    if (arn1.getSequence() != null && arn2.getSequence() != null) {
                         resultatTextArea.setText("égalité de structure : "
                                 + arn1.equals(arn2, "structure") + "\n\n"
                                 + "égalité stricte : " + arn1.equals(arn2, "sequence"));
@@ -166,7 +166,7 @@ public class Affichage3 extends JFrame {
                     }
                 }
                 else if (egalite2Button.isSelected()){
-                    if (arn1.sequence != null && arn2.sequence != null) {
+                    if (arn1.getSequence() != null && arn2.getSequence() != null) {
                         resultatTextArea.setText("égalité de structure : " +
                                 Boolean.toString(arn1.equalsSansTirets(arn2, "structure")) + "\n\n"
                                 + "égalité stricte : "+Boolean.toString(arn1.equalsSansTirets(arn2, "sequence")));
@@ -177,7 +177,7 @@ public class Affichage3 extends JFrame {
                 }
                 else if (pgacButton.isSelected()&&fileArn1.getText().length()!=0){
                     try {
-                        resultatTextArea.setText(ARN.plusGrandARNCommun(arn1, arn2).toString());
+                        resultatTextArea.setText(arn1.plusGrandARNCommun(arn2).toString());
                     } catch (Exception exception) {
                         resultatTextArea.setText("pas de motif commun trouvé");
                     }

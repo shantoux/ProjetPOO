@@ -3,8 +3,8 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class ARN {
-    protected String sequence;
-    protected String appariements;
+    private String sequence;
+    private String appariements;
 
     //CONSTRUCTEURS
 
@@ -22,10 +22,22 @@ public class ARN {
         this.appariements = appariements;
     }
 
+    public String getAppariements() {
+        return appariements;
+    }
+
+    public String getSequence() {
+        return sequence;
+    }
+
     @Override
     public String toString() {
         return (this.sequence + "\n" + this.appariements);
     }
+
+
+
+
 
     /**
      * Parser de fichiers txt stockholm afin de récupérer la séquence consensus ainsi que l'appariements au format
@@ -154,18 +166,43 @@ public class ARN {
     }
 
     /**
-     * @param arn1 : premier ARN entré
+     * Méthode qui permet d'obtenir un Arbre représentant la structure secondaire d'un ARN
+     *
+     * @return un Arbre raciné dont les noeuds internes sont les bases appariées et les feuilles des bases non appariées
+     */
+
+    public Arbre arnVersArbre() {
+        String appariements = this.getAppariements();
+        String sequence = this.getSequence();
+        Arbre racine = new Arbre();
+        Arbre pere = racine; //buffer
+        for (int i = 0; i < appariements.length(); i++) {
+            if (appariements.charAt(i) == '-') { //tiret = base non appariée
+                pere.addEnfant(Character.toString(sequence.charAt(i))); //ajout d'un enfant au buffer
+            } else if (appariements.charAt(i) == '(') { //( = première base d'un couple de bases appariées
+                pere.addEnfant(Character.toString(sequence.charAt(i))); //ajout d'un enfant au buffer
+                pere = pere.getDernierEnfantAjoute();//l'enfant ajouté devient le nouveau buffer
+            } else if (appariements.charAt(i) == ')') { //) = deuxième base d'un couple de bases appariées
+                pere.addPaire(Character.toString(sequence.charAt(i)));//ajout d'une base au buffer
+                // qui contient désormais une paire de bases
+                pere = pere.getLienVersLePere();//l'ancêtre du buffer devient le nouveau buffer
+            }
+        }
+        return racine;//retour de l'arbre créé
+    }
+
+    /**
      * @param arn2 : deuxième ARN entré
      * @return retourne le plus grand motif commun à arn1 et arn2 sous forme d'un nouvel ARN
      */
-    public static ARN plusGrandARNCommun(ARN arn1, ARN arn2) {
+    public ARN plusGrandARNCommun(ARN arn2) {
         ARN plusGrandARNCommun = new ARN();
         int tailleMaxCommun = 0;
         int tailleBuffer;
         int openParenthese;
         int closedParenthese;
-        if (arn1.sequence.length() != 0 && arn2.sequence.length() != 0) {
-            for (int i = 0; i < arn1.sequence.length(); i++) {
+        if (this.sequence.length() != 0 && arn2.sequence.length() != 0) {
+            for (int i = 0; i < this.sequence.length(); i++) {
                 for (int j = 0; j < arn2.sequence.length(); j++) {
                     ARN bufferArn = new ARN();
                     tailleBuffer = 0;
@@ -173,16 +210,16 @@ public class ARN {
                     closedParenthese = 0;
                     int k = i;
                     int l = j;
-                    while (k < arn1.sequence.length() && l < arn2.sequence.length()
-                            && arn1.appariements.charAt(k) == arn2.appariements.charAt(l)
-                            && arn1.sequence.charAt(k) == arn2.sequence.charAt(l)) {
+                    while (k < this.sequence.length() && l < arn2.sequence.length()
+                            && this.appariements.charAt(k) == arn2.appariements.charAt(l)
+                            && this.sequence.charAt(k) == arn2.sequence.charAt(l)) {
 
-                        bufferArn.appariements += arn1.appariements.charAt(k);
-                        bufferArn.sequence += arn1.sequence.charAt(k);
+                        bufferArn.appariements += this.appariements.charAt(k);
+                        bufferArn.sequence += this.sequence.charAt(k);
                         tailleBuffer += 1;
-                        if (arn1.appariements.charAt(k) == '(') {
+                        if (this.appariements.charAt(k) == '(') {
                             openParenthese += 1;
-                        } else if (arn1.appariements.charAt(k) == ')') {
+                        } else if (this.appariements.charAt(k) == ')') {
                             closedParenthese += 1;
                         }
                         k += 1;
@@ -212,13 +249,13 @@ public class ARN {
         ARN l4 = new ARN("AAAAAUGCAGUTG", "----((-))----");
         ARN motif = new ARN("cgcuaucucCa", "))))))))))-");
         ARN sousARN = new ARN("gutjdhucgGaCUuaaAAuCcga", "------(((((-------)))))");
-        Arbre sousarbre = Arbre.arnVersArbre(sousARN);
+        Arbre sousarbre = sousARN.arnVersArbre();
         ARN arn1 = stockholmToARN("RF00005.stockholm.txt");
-        System.out.println(arn1.removeTiretsDebutEtFinARN() + "\n" + arn1);
-        System.out.println(arn1.rechercheDeMotifs(motif,"sequence"));
-        System.out.println(motif.rechercheDeMotifs(arn1,"structure"));
-        System.out.println(stockholmToARN("essai.txt"));
-        System.out.println(stockholmToARN("essai1.txt"));
+        System.out.println(arn1);
+        Arbre a1 = arn1.arnVersArbre();
+        System.out.println(a1.arbreVersARN());
+
+
     }
 
 
