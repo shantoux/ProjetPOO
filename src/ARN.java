@@ -67,6 +67,7 @@ public class ARN {
                 sequence = line.substring(line.indexOf("RF") + 2);
                 sequence = sequence.trim();
                 sequence = sequence.replaceAll("\\.", "");
+                sequence = sequence.toUpperCase();
             }
         }
         return new ARN(sequence, appariements);
