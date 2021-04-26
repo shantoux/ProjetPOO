@@ -226,7 +226,7 @@ public class ARN {
                         k += 1;
                         l += 1;
                     }
-                    if (tailleBuffer > tailleMaxCommun && openParenthese == closedParenthese) {
+                    if (tailleBuffer > tailleMaxCommun && openParenthese == closedParenthese && openParenthese != 0) {
                         tailleMaxCommun = tailleBuffer;
                         plusGrandARNCommun = bufferArn;
                     }
