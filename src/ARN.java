@@ -102,14 +102,28 @@ public class ARN {
         if (appariements.indexOf('(') != 0) {
             int index = appariements.indexOf('(');
             appariements = appariements.substring(index);
-            sequence = sequence.substring(index);
+            if (sequence != null){
+                sequence = sequence.substring(index);
+            }
+
         }
         if (appariements.lastIndexOf(')') != -1) {
             int endIndex = appariements.lastIndexOf(')');
             appariements = appariements.substring(0, endIndex + 1);
-            sequence = sequence.substring(0, endIndex + 1);
+            if (sequence != null){
+                sequence = sequence.substring(0, endIndex + 1);
+            }
+
         }
-        return new ARN(sequence, appariements);
+        if (sequence==null){
+            return new ARN(appariements);
+        }
+        else{
+            return new ARN(sequence, appariements);
+        }
+
+
+
     }
 
     /**

@@ -165,8 +165,7 @@ public class Affichage3 extends JFrame {
                     arn1 = new ARN(arn1SS.getText());
                     arn2 = new ARN(arn2SS.getText());
                 }
-                String affichageDesARNs = "ARN1 :" + "\n" + arn1.toString() + "\n\n" +
-                        "ARN2 :" + "\n" + arn2.toString() + "\n";
+
                 if (motifButton.isSelected()){
                     if (arn1.getSequence() != null && arn2.getSequence() != null){
                         resultatTextArea.setText("Recherche de motif structurel : "
@@ -205,6 +204,8 @@ public class Affichage3 extends JFrame {
                     }
                 }
                 else if (afficherButton.isSelected()){
+                    String affichageDesARNs = "ARN1 :" + "\n" + arn1.toString() + "\n\n" +
+                            "ARN2 :" + "\n" + arn2.toString() + "\n";
                     resultatTextArea.setText(affichageDesARNs);
                 }
                 else{
