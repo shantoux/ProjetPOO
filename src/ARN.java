@@ -319,6 +319,8 @@ public class ARN {
         System.out.println(arn1);
         Arbre a1 = arn1.arnVersArbre();
         System.out.println(a1.arbreVersARN());
+        a1.affichageArbre();
+
 
 
     }

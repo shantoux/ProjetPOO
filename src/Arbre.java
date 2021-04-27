@@ -54,10 +54,10 @@ public class Arbre {
     //Affichage sommaire de l'arbre pour vérification de la méthode parentheseVersArbre, par récursivité
     public void affichageArbre() {
         for (Arbre noeud : this.enfants) {
-            if (noeud.enfants.size() != 0) {
-                System.out.println(noeud.base);
+            if (noeud.enfants.size() == 0) {
+                System.out.print(noeud.base);
             } else {
-                System.out.println(noeud.base);
+                System.out.println("["+noeud.base+"]");
                 noeud.affichageArbre();
             }
         }
