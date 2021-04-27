@@ -36,7 +36,7 @@ public class Affichage3 extends JFrame {
         fileArn1.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (fileArn1.getText().equals("Entrer fichier")){
+                if (fileArn1.getText().equals("Entrer fichier")) {
                     fileArn1.setText("");
                     arn1SS.setEditable(false);
                     arn2SS.setEditable(false);
@@ -62,7 +62,7 @@ public class Affichage3 extends JFrame {
         fileArn2.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (fileArn2.getText().equals("Entrer fichier")){
+                if (fileArn2.getText().equals("Entrer fichier")) {
                     fileArn2.setText("");
                     arn1SS.setEditable(false);
                     arn2SS.setEditable(false);
@@ -88,7 +88,7 @@ public class Affichage3 extends JFrame {
         arn1SS.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (arn1SS.getText().equals("Entrer la structure secondaire")){
+                if (arn1SS.getText().equals("Entrer la structure secondaire")) {
                     arn1SS.setText("");
                     fileArn1.setEditable(false);
                     fileArn2.setEditable(false);
@@ -109,7 +109,7 @@ public class Affichage3 extends JFrame {
         arn2SS.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (arn2SS.getText().equals("Entrer la structure secondaire")){
+                if (arn2SS.getText().equals("Entrer la structure secondaire")) {
                     arn2SS.setText("");
                     fileArn1.setEditable(false);
                     fileArn2.setEditable(false);
@@ -134,18 +134,16 @@ public class Affichage3 extends JFrame {
 
             //Récupération des ARNs à partir des inputs de l'utilisateur :
             //Si il a renseigné des fichiers :
-            if (!fileArn1.getText().contains("Entrer fichier") && !fileArn2.getText().contains("Entrer fichier")){
+            if (!fileArn1.getText().contains("Entrer fichier") && !fileArn2.getText().contains("Entrer fichier")) {
                 //Si l'utilisateur a rentré quelque chose dans es champs fileArn1 et fileArn2
-                arn1 = ARN.stockholmToARN(fileArn1.getText()+".stockholm.txt");//Construction de l'ARN1 à partir du fichier
-                arn2 = ARN.stockholmToARN(fileArn2.getText()+".stockholm.txt");// Construction de l'ARN2 à partir du fichier
-                if (arn1 == null){
+                arn1 = ARN.stockholmToARN(fileArn1.getText() + ".stockholm.txt");//Construction de l'ARN1 à partir du fichier
+                arn2 = ARN.stockholmToARN(fileArn2.getText() + ".stockholm.txt");// Construction de l'ARN2 à partir du fichier
+                if (arn1 == null) {
                     resultatTextArea.setText("ERREUR : le fichier ARN1 n'a pas été trouvé dans le répertoire local");
-                }
-                else if (arn2 == null){
+                } else if (arn2 == null) {
                     resultatTextArea.setText("ERREUR : le fichier ARN2 n'a pas été trouvé dans le répertoire local");
                 }
-            }
-            else { //Sinon, c'est qu'il a renseigné manuellement une structure secondaire
+            } else { //Sinon, c'est qu'il a renseigné manuellement une structure secondaire
                 arn1 = new ARN(arn1SS.getText());
                 arn2 = new ARN(arn2SS.getText());
 
@@ -155,18 +153,16 @@ public class Affichage3 extends JFrame {
             if (arn1 != null && arn2 != null && arn1.validiteSSentree() && arn2.validiteSSentree()) {//test nullité
                 //et validité de structure secondaire en cas d'input manuel par l'utilisateur
 
-                if (motifButton.isSelected()){
+                if (motifButton.isSelected()) {//recherche si ARN2 est motif de ARN1
 
-                    if (arn1.getSequence() != null && arn2.getSequence() != null){
+                    if (arn1.getSequence() != null && arn2.getSequence() != null) {
                         resultatTextArea.setText("Recherche de motif structurel : "
                                 + arn1.rechercheDeMotifs(arn2, "structure") + "\n\n"
-                                + "Recherche de motif identique : " + arn1.rechercheDeMotifs(arn2,"sequence"));
-                    }
-                    else {
+                                + "Recherche de motif identique : " + arn1.rechercheDeMotifs(arn2, "sequence"));
+                    } else {
                         resultatTextArea.setText(arn1.rechercheDeMotifs(arn2, "structure"));
                     }
-                }
-                else if (egaliteButton.isSelected()){
+                } else if (egaliteButton.isSelected()) {//egalité stricte entre ARN1 et ARN2
                     if (arn1.getSequence() != null && arn2.getSequence() != null) {
                         resultatTextArea.setText("égalité de structure : "
                                 + arn1.equals(arn2, "structure") + "\n\n"
@@ -175,18 +171,16 @@ public class Affichage3 extends JFrame {
                         resultatTextArea.setText(Boolean.toString(arn1.equals(arn2, "structure")));
 
                     }
-                }
-                else if (egalite2Button.isSelected()){
+                } else if (egalite2Button.isSelected()) {//égalité sans les bases non appariées
                     if (arn1.getSequence() != null && arn2.getSequence() != null) {
                         resultatTextArea.setText("égalité de structure : " +
                                 arn1.equalsSansTirets(arn2, "structure") + "\n\n"
-                                + "égalité stricte : "+ arn1.equalsSansTirets(arn2, "sequence"));
+                                + "égalité stricte : " + arn1.equalsSansTirets(arn2, "sequence"));
                     } else {
                         resultatTextArea.setText(Boolean.toString(arn1.equalsSansTirets(arn2, "structure")));
 
                     }
-                }
-                else if (pgacButton.isSelected()&&fileArn1.getText().length()!=0){
+                } else if (pgacButton.isSelected() && fileArn1.getText().length() != 0) {//plus grand motif commun
                     if (arn1.getSequence() != null && arn2.getSequence() != null) {
                         try {
                             resultatTextArea.setText("Plus grand motif structurel : " +
@@ -195,7 +189,7 @@ public class Affichage3 extends JFrame {
                             resultatTextArea.setText("Pas de plus grand motif structurel trouvé");
                         }
                         try {
-                            resultatTextArea.append("\n\nPlus grand motif strict : " +"\n"
+                            resultatTextArea.append("\n\nPlus grand motif strict : " + "\n"
                                     + arn1.plusGrandMotifCommun(arn2, "sequence").toString());
                         } catch (Exception exception) {
                             resultatTextArea.append("\n\nPas de plus grand motif strict trouvé");
@@ -205,33 +199,29 @@ public class Affichage3 extends JFrame {
                                 arn1.plusGrandMotifCommun(arn2, "structure").toString());
 
                     }
-                }
-                else if (afficherButton.isSelected()){
+                } else if (afficherButton.isSelected()) {//simple affichage des arns
                     String affichageDesARNs = "ARN1 :" + "\n" + arn1.toString() + "\n\n" +
                             "ARN2 :" + "\n" + arn2.toString() + "\n";
                     resultatTextArea.setText(affichageDesARNs);
-                }
-                else{
+                } else {
                     resultatTextArea.setText("ERREUR : Veuillez sélectionner une méthode de comparaison :)");
                 }
             } else {
-                if (arn1==null || arn2==null){
+                if (arn1 == null || arn2 == null) {
                     resultatTextArea.setText("ERREUR : Veuilez entrer deux ARNs à comparer :)");
                 }
-                if (!arn1.validiteSSentree()){//si le nombre de parenthèses ouvrantes et fermantes n'est pas le même
-                    if (resultatTextArea.getText().contains("ERREUR")){
+                if (!arn1.validiteSSentree()) {//si le nombre de parenthèses ouvrantes et fermantes n'est pas le même
+                    if (resultatTextArea.getText().contains("ERREUR")) {
                         resultatTextArea.append("\nERREUR : La structure secondaire entrée pour l'ARN1 est incorrecte");
-                    }
-                    else{
+                    } else {
                         resultatTextArea.setText("ERREUR : La structure secondaire entrée pour l'ARN1 est incorrecte");
                     }
 
                 }
-                if(!arn2.validiteSSentree()){
-                    if (resultatTextArea.getText().contains("ERREUR")){
+                if (!arn2.validiteSSentree()) {
+                    if (resultatTextArea.getText().contains("ERREUR")) {
                         resultatTextArea.append("\nERREUR : La structure secondaire entrée pour l'ARN2 est incorrecte");
-                    }
-                    else{
+                    } else {
                         resultatTextArea.setText("ERREUR : La structure secondaire entrée pour l'ARN2 est incorrecte");
                     }
                 }
@@ -239,7 +229,6 @@ public class Affichage3 extends JFrame {
             }
         });
     }
-
 
 
     public static void main(String[] args) {
