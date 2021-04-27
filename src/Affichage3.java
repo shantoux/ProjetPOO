@@ -188,14 +188,23 @@ public class Affichage3 extends JFrame {
                 }
                 else if (pgacButton.isSelected()&&fileArn1.getText().length()!=0){
                     if (arn1.getSequence() != null && arn2.getSequence() != null) {
-                        resultatTextArea.setText("Plus grand motif structurel : " +
-                                arn1.plusGrandMotifCommun(arn2, "structure").toString() + "\n\n"
-                                + "plus grand motif strict : "+ arn1.plusGrandMotifCommun(arn2, "sequence"));
+                        try {
+                            resultatTextArea.setText("Plus grand motif structurel : " +
+                                    arn1.plusGrandMotifCommun(arn2, "structure").toString());
+                        } catch (Exception exception) {
+                            resultatTextArea.setText("Pas de plus grand motif structurel trouvé");
+                        }
+                        try {
+                            resultatTextArea.append("\n\nPlus grand motif strict : " +"\n"
+                                    + arn1.plusGrandMotifCommun(arn2, "sequence").toString());
+                        } catch (Exception exception) {
+                            resultatTextArea.append("\n\nPas de plus grand motif strict trouvé");
+                        }
                     } else {
-                        resultatTextArea.setText(arn1.plusGrandMotifCommun(arn2, "structure").toString());
+                        resultatTextArea.setText("Plus grand motif structurel :" +
+                                arn1.plusGrandMotifCommun(arn2, "structure").toString());
 
                     }
-
                 }
                 else if (afficherButton.isSelected()){
                     String affichageDesARNs = "ARN1 :" + "\n" + arn1.toString() + "\n\n" +
